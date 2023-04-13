@@ -59,6 +59,11 @@ Each branch won’t have the transformed data, only management team etc. of the 
 # The approach
 ![Daily Grind 1](https://user-images.githubusercontent.com/127961119/231802098-93dc852a-dcda-4a7b-9156-9619b74946ad.png)
 
+# SMART goal
+
+Organise our team to work cohesively together and building upon our strength's and helping each other in are weaknesses.
+
+
 
 
 
