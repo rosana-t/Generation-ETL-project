@@ -61,7 +61,7 @@ Each branch won’t have the transformed data, only management team etc. of the 
 
 # SMART goal
 
-Organise our team to work cohesively together and building upon our strength's and helping each other in are weaknesses.
+Organise our team to work cohesively together and building upon our strengths and helping each other in are weaknesses.
 
 
 
