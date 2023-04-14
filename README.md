@@ -3,7 +3,7 @@
 Developer's: 
 Rosana Thanarajan,
 Sumaya Jama,
-Jorge Caneda Gomez,
+[Jorge Caneda Gomez](https://github.com/jorgecaneda),
 Mihaly Jeles
 
 # About
