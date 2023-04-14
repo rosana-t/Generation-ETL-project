@@ -2,7 +2,7 @@
 
 Developer's: 
 Rosana Thanarajan,
-[Sumaya Jama] (https://github.com/sumayaja)
+[Sumaya Jama](https://github.com/sumayaja)
 Jorge Caneda Gomez,
 Mihaly Jeles
 
