@@ -4,7 +4,7 @@ Developer's:
 [Rosana Thanarajan](https://github.com/rosana-t),
 [Sumaya Jama](https://github.com/sumayaja),
 [Jorge Caneda Gomez](https://github.com/jorgecaneda),
-Mihaly Jeles
+[Mihaly Zoltan Jeles](https://github.com/MihalyJeles)
 
 # About
 
