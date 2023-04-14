@@ -1,7 +1,7 @@
 # daily-grind-final-project
 
 Developer's: 
-Rosana Thanarajan,
+[Rosana Thanarajan](https://github.com/rosana-t),
 [Sumaya Jama](https://github.com/sumayaja),
 [Jorge Caneda Gomez](https://github.com/jorgecaneda)
 Mihaly Jeles
