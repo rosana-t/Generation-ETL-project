@@ -4,7 +4,8 @@ Developer's:
 Rosana Thanarajan,
 Sumaya Jama,
 Jorge Caneda Gomez,
-Mihaly Jeles
+[Mihaly Jeles]{https://github.com/MihalyJeles}
+
 
 # About
 
