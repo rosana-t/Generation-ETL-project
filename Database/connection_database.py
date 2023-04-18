@@ -17,7 +17,25 @@ def setup_db_connection(host=HOST, user=USER, password=PASSWORD, warehouse_db_na
         password="password"
     )
     
-    cursor = conn.cursor()
-    return conn, cursor
+    return conn
+connection = setup_db_connection()
+def create_db_tables(connection):
+    create_chesterfield_data_table = """
+        CREATE TABLE IF NOT EXISTS chesterfield (
+            id INT NOT NULL AUTO_INCREMENT,
+            date DATE NOT NULL,
+            time TIME NOT NULL,
+            location VARCHAR(100) NOT NULL,
+            order VARCHAR(250) NOT NULL,
+            total_price DECIMAL(10,2) NOT NULL,
+            payment_method VARCHAR(20) NOT NULL,
+        PRIMARY KEY (id)
+        );
+    """
+    
+    cursor = connection.cursor()
+    cursor.execute(create_chesterfield_data_table)
+    connection.commit()
+    cursor.close()
 
 
