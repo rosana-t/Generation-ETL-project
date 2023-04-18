@@ -63,7 +63,8 @@ Each branch won’t have the transformed data, only management team etc. of the 
 
 Organise our team to work cohesively together and building upon our strengths and helping each other in are weaknesses.
 
-
+# Ways of working
+https://docs.google.com/document/d/19KHkB9tTL4QzMGErdRBYX49L5XkttYZl1tBRzudbow8/edit
 
 
 
