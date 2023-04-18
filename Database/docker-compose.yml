@@ -1,13 +1,12 @@
 version: "3.8"
 services:
   db:
-    image: mysql
-    container_name: mysql_container_group_project
+    image: postgres
+    container_name: postgres_container_group_project
     restart: always
     environment:
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: "${mysql_pass}"
-      MYSQL_DATABASE: "${mysql_db}"
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'password'
     ports:
       - "3306:3306"
     security_opt:
@@ -18,7 +17,7 @@ services:
         target: /var/lib/mysql
   adminer:
     image: adminer
-    container_name: adminer_container_group_project
+    container_name: adminer_container_group_project_1
     restart: always
     ports:
       - 8080:8080
