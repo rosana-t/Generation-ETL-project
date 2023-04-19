@@ -1,5 +1,5 @@
 # daily-grind-final-project
-Mihaly is the boss!
+
 
 Developer's: 
 [Rosana Thanarajan](https://github.com/rosana-t),
