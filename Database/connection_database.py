@@ -18,18 +18,17 @@ def setup_db_connection(host=HOST, user=USER, password=PASSWORD, warehouse_db_na
     )
     
     return conn
-connection = setup_db_connection()
-def create_db_tables(connection):
+
+def create_db_table(connection):
     create_chesterfield_data_table = """
         CREATE TABLE IF NOT EXISTS chesterfield (
-            id INT NOT NULL AUTO_INCREMENT,
+            id serial PRIMARY KEY,
             date DATE NOT NULL,
             time TIME NOT NULL,
             location VARCHAR(100) NOT NULL,
-            order VARCHAR(250) NOT NULL,
+            orders VARCHAR(250) NOT NULL,
             total_price DECIMAL(10,2) NOT NULL,
-            payment_method VARCHAR(20) NOT NULL,
-        PRIMARY KEY (id)
+            payment_method VARCHAR(20) NOT NULL
         );
     """
     
@@ -38,4 +37,21 @@ def create_db_tables(connection):
     connection.commit()
     cursor.close()
 
+def insert_data(connection, data):
+    sql = """
+        INSERT INTO chesterfield (date, time, location, orders, total_price, payment_method)
+        VALUES (%s, %s, %s, %s, %s, %s);
+    """
+    
+    cursor = connection.cursor()
+    for order_details in data:
+        row = (order_details['date'],
+            order_details['time'], order_details['location'],
+            order_details['orders'], order_details['total_price'],
+            order_details['payment_method'])
+        cursor.execute(sql, row)
+              
+    connection.commit()
+    cursor.close() 
+    print('Rows inserted.')
 
