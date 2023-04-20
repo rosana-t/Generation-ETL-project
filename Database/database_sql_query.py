@@ -34,8 +34,6 @@ def create_product_table(connection):
             product_name VARCHAR (30) NOT NULL,
             product_size VARCHAR (7) NOT NULL,
             product_price DECIMAl(10,2) NOT NULL,
-            CONSTRAINT fk_branch_id FOREIGN KEY (branch_id)
-                REFERENCES branch (branch_id)
             );
             """
             cursor.execute(postgres)
