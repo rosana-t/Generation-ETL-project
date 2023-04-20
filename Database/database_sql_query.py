@@ -1,3 +1,5 @@
+from connection_database import setup_db_connection
+
 def create_database(connection):
     try:
         with connection.cursor() as cursor:
@@ -83,7 +85,8 @@ def create_basket_table(connection):
 
 
 def create_all_database_tables(connection):
-    try: 
+    try:
+        connection = setup_db_connection() 
         create_branch_table(connection)
         create_product_table(connection)
         create_transaction_table(connection)

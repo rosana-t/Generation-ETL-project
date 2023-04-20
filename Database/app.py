@@ -59,7 +59,7 @@ def print_first3_dic():
 
 #------------------------------------Main App ------------------------------------------------------------------
 
-connection = setup_db_connection()
+# connection = setup_db_connection()
 extract_data()
 clean_sensitive_data()
 split_date_time()
@@ -67,6 +67,6 @@ split_date_time()
 print_first3_dic()
 
 # create a table with raw data
-create_db_table(connection)
+# create_db_table(connection)
 # insert_data(connection, sales_data)
 
