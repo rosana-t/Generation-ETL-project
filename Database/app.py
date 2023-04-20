@@ -39,8 +39,25 @@ def split_date_time():
         del data['date_time']
     return sales_data
 
-# SPLIT orders into different columns function
-#def split_date_time():
+# SPLIT items from orders into different columns function
+def split_items():
+    basket = []
+    for data in sales_data:
+        orders = data['orders']
+        items_split_list = orders.split(',')
+        print(items_split_list)
+        
+        for x in items_split_list:
+            item = x.split()
+            product_size = item[0] 
+            product_name = ' '.join(item[1:-1]) 
+            product_price = item[-1] 
+            basket.append(product_size)
+            basket.append(product_price)
+            basket.append(product_name)
+            print(basket)
+    return sales_data
+
 
 
 #---------------------------EXTRA functions --------------------------------------------------------------------------------------------------------
