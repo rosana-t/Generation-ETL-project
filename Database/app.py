@@ -27,17 +27,28 @@ def clean_sensitive_data():
         del data['card_number']
     return sales_data
 
-
+#-------------------------------- Transaction(table) functions ------------------------------------------------------------------------------------
 # SPLIT date and time into different columns function
 def split_date_time():
     for data in sales_data:
         date_time = data['date_time']
         date_time_split_list= date_time.split()
-        data['date'] = date_time_split_list[0]
+        data['date'] = date_time_split_list[0].replace('/','-')
         data['time'] = date_time_split_list[1]
         del data['date_time']
     return sales_data
 
+def remove_extra_data():
+    for data in sales_data:
+        del data['orders']
+    return sales_data
+
+def change_type():
+    for data in sales_data:
+        data['total_price'] = float(data['total_price'])
+    return sales_data
+
+#-------------------------------- Product(table) functions ---------------------------------------------------------------------------------------
 # SPLIT items from orders into different columns function
 def split_items():
     all_orders_list = []
@@ -88,7 +99,8 @@ def print_orders_list():
 # print the first 3 dictionaries from the list
 def print_first3_dic():
     for dic in [sales_data[0], sales_data[2], sales_data[3]]:
-        print(f'{dic["date"]},{dic["time"]},{dic["location"]},{dic["orders"]},{dic["total_price"]},{dic["payment_method"]}')
+        # print(f'{dic["date"]},{dic["time"]},{dic["location"]},{dic["orders"]},{dic["total_price"]},{dic["payment_method"]}')
+        print(dic)
 
 def print_unique_orders_list(unique_orders_list):
     for dic in unique_orders_list:
@@ -110,6 +122,7 @@ items_split_list = split_items()
 # print(items_split_list)
 x = unique_items(items_split_list)
 y = split_unique_items(x)
+
 
 z = branch_location()
 print(z)
