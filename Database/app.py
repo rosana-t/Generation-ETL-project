@@ -68,7 +68,15 @@ def split_unique_items(unique_product_list):
             list_of_product_dic.append(item_dic) # append all items dictionary into a list
         return list_of_product_dic
 
-
+def branch_location():
+    list_of_locations = []
+    for data in sales_data:
+        location = data['location']
+        branch_dic = {} 
+        branch_dic['location'] = location
+        if branch_dic not in list_of_locations:
+            list_of_locations.append(branch_dic)
+    return list_of_locations    
 
 #---------------------------EXTRA functions --------------------------------------------------------------------------------------------------------
 
@@ -102,9 +110,9 @@ items_split_list = split_items()
 # print(items_split_list)
 x = unique_items(items_split_list)
 y = split_unique_items(x)
-print(y)
 
-
+z = branch_location()
+print(z)
 # create a table with raw data
 # create_db_table(connection)
 # insert_data(connection, sales_data)
