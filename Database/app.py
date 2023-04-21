@@ -1,12 +1,12 @@
 import csv
-from connection_database import setup_db_connection, create_db_table, insert_data
+# from connection_database import setup_db_connection, create_db_table, insert_data
 
 sales_data = []
 
 #-------------------------EXTRACT data from csv file into a list of dictionaries------------------------------------------------------------------
 def extract_data():
     try:
-        with open('chesterfield_25-08-2021_09-00-00.csv', 'r') as file:
+        with open('leeds_01-01-2020_09-00-00.csv', 'r') as file:
             source_file = csv.DictReader(file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',')
             # next(source_file) #ignore the header row
             for row in source_file:
@@ -16,7 +16,6 @@ def extract_data():
         print("An error occurred: " + str(error))
 
     return sales_data
-
 
 #---------------------------TRANSFORM data --------------------------------------------------------------------------------------------------------
 
@@ -41,22 +40,33 @@ def split_date_time():
 
 # SPLIT items from orders into different columns function
 def split_items():
-    basket = []
+    all_orders_list = []
     for data in sales_data:
-        orders = data['orders']
-        items_split_list = orders.split(',')
-        print(items_split_list)
-        
-        for x in items_split_list:
-            item = x.split()
-            product_size = item[0] 
-            product_name = ' '.join(item[1:-1]) 
-            product_price = item[-1] 
-            basket.append(product_size)
-            basket.append(product_price)
-            basket.append(product_name)
-            print(basket)
-    return sales_data
+        orders = data['orders']  #e.g. ["Large Hot Chocolate - 1.70, Large Filter coffee - 1.80"]
+        items_split_list = orders.split(',') #e.g. ['Large Flavoured iced latte - Vanilla - 3.25', ' Large Latte - 2.45']
+        all_orders_list.append(items_split_list)
+    return all_orders_list
+
+#get the unique items function 
+def unique_items(items_split_l):
+    unique_product_list = []
+    for items in items_split_l:
+        for product in items:
+            x = product.strip()
+            if x not in unique_product_list:
+                unique_product_list.append(x)
+    return unique_product_list
+
+def split_unique_items(unique_product_list):
+        list_of_product_dic = []
+        for x in unique_product_list:
+            item = x.split()  #e.g. ['Large', 'Flavoured', 'iced', 'latte', '-', 'Vanilla', '-', '3.25']
+            item_dic = {}  
+            item_dic["name"] = ' '.join(item[1:-1]).replace(' -','') # remove all extra spaces and '-'
+            item_dic["size"] = item[0]
+            item_dic["price"] = float(item[-1])
+            list_of_product_dic.append(item_dic) # append all items dictionary into a list
+        return list_of_product_dic
 
 
 
@@ -72,6 +82,9 @@ def print_first3_dic():
     for dic in [sales_data[0], sales_data[2], sales_data[3]]:
         print(f'{dic["date"]},{dic["time"]},{dic["location"]},{dic["orders"]},{dic["total_price"]},{dic["payment_method"]}')
 
+def print_unique_orders_list(unique_orders_list):
+    for dic in unique_orders_list:
+        print(f'{dic["name"]},{dic["price"]},{dic["size"]}')
 
 
 #------------------------------------Main App ------------------------------------------------------------------
@@ -81,7 +94,16 @@ extract_data()
 clean_sensitive_data()
 split_date_time()
 # print_orders_list()
-print_first3_dic()
+# print_first3_dic()
+# print(split_items())
+# unique_orders_list = split_items()
+# split_items()
+items_split_list = split_items()
+# print(items_split_list)
+x = unique_items(items_split_list)
+y = split_unique_items(x)
+print(y)
+
 
 # create a table with raw data
 # create_db_table(connection)
