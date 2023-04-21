@@ -114,16 +114,18 @@ def print_unique_orders_list(unique_orders_list):
 extract_data()
 clean_sensitive_data()
 split_date_time()
-# print_orders_list()
-# print_first3_dic()
-# print(split_items())
-# unique_orders_list = split_items()
-# split_items()
+
+#calling Product(table) functions
 items_split_list = split_items()
-# print(items_split_list)
 x = unique_items(items_split_list)
 y = split_unique_items(x)
 
+#calling Transaction(table) functions
+remove_extra_data()
+change_type()
+print_first3_dic()
+
+#calling Branch(table) functions
 z = branch_location()
 print(z)
 
