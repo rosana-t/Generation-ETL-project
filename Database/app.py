@@ -84,11 +84,9 @@ def branch_location():
     list_of_locations = []
     for data in sales_data:
         location = data['location']
-        branch_dic = {} 
-        branch_dic['location'] = location
-        if branch_dic not in list_of_locations:
-            list_of_locations.append(branch_dic)
-    return list_of_locations    
+        if location not in list_of_locations:
+            list_of_locations.append(location)
+    return list_of_locations   
 
 #---------------------------EXTRA functions --------------------------------------------------------------------------------------------------------
 
