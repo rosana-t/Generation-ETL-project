@@ -9,8 +9,8 @@ from app import *
 
 #HP
 def test_clean_sensitive_data_HP():
-    raw_sales_d = {'date_time': '01-01-2020 09:01', 'location': 'Leeds','name': 'Matthew Palmer','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'}
-    expected = {'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}
+    raw_sales_d = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','name': 'Matthew Palmer','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','name': 'Matthew Palmer','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'}]
+    expected = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}]
     result = clean_sensitive_data(raw_sales_d)
     assert expected == result
 
@@ -24,8 +24,8 @@ def test_clean_sensitive_data_UHP():
 
 #HP    
 def test_split_date_time_HP():
-    cleaned_sales_d = {'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}
-    expected = {'date': '01-01-2020', 'time': '09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}
+    cleaned_sales_d = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}]
+    expected = [{'date': '01-01-2020', 'time': '09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'},{'date': '01-01-2020', 'time': '09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}]
     result = split_date_time(cleaned_sales_d)
     assert expected == result
 
@@ -37,8 +37,8 @@ def test_split_date_time_UHP():
 
 #HP
 def test_remove_orders_data_HP():
-    second_step_d = {'date': '01-01-2020', 'time': '09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}
-    expected = {'date': '01-01-2020', 'time': '09:01', 'location': 'Leeds', 'total_price': 4.1, 'payment_method': 'CARD'}
+    second_step_d = [{'date': '01-01-2020', 'time': '09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'},{'date': '01-01-2020', 'time': '09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}]
+    expected = [{'date': '01-01-2020', 'time': '09:01', 'location': 'Leeds', 'total_price': 4.1, 'payment_method': 'CARD'},{'date': '01-01-2020', 'time': '09:01', 'location': 'Leeds', 'total_price': 4.1, 'payment_method': 'CARD'}]
     result = remove_orders_data(second_step_d)
     assert expected == result
     
@@ -122,25 +122,25 @@ def test_branch_location_UHP():
     assert expected == result
 
 #------------------------------------Main App ----------------------------------------------------------------------------------------------
-test_clean_sensitive_data_HP()
-#test_clean_sensitive_data_UHP()
+# test_clean_sensitive_data_HP()
+# #test_clean_sensitive_data_UHP()
 
-#calling Product(table) functions------------------------------------------------------------
-test_split_products_HP()
-#test_split_products_UHP()
-test_unique_products_HP()
-#test_unique_products_UHP()
-test_split_unique_products_HP()
-#test_split_unique_products_UHP()
+# #calling Product(table) functions------------------------------------------------------------
+# test_split_products_HP()
+# #test_split_products_UHP()
+# test_unique_products_HP()
+# #test_unique_products_UHP()
+# test_split_unique_products_HP()
+# #test_split_unique_products_UHP()
 
-# calling Transaction(table) functions-------------------------------------------------------
-test_split_date_time_HP()
-#test_split_date_time_UHP()
-test_remove_orders_data_HP()
-#test_remove_orders_data_UHP()
-test_change_type_total_prize_HP()
-#test_change_type_total_prize_UHP()
+# # calling Transaction(table) functions-------------------------------------------------------
+# test_split_date_time_HP()
+# #test_split_date_time_UHP()
+# test_remove_orders_data_HP()
+# #test_remove_orders_data_UHP()
+# test_change_type_total_prize_HP()
+# #test_change_type_total_prize_UHP()
 
-#calling Branch(table) functions--------------------------------------------------------------
-test_branch_location_HP()
-#test_branch_location_UHP()
+# #calling Branch(table) functions--------------------------------------------------------------
+# test_branch_location_HP()
+# #test_branch_location_UHP()
