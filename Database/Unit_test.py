@@ -65,7 +65,7 @@ def test_change_type_total_prize_UHP():
 
 #HP
 def test_split_products_HP():
-    cleaned_sales_d = {'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}
+    cleaned_sales_d = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}]
     expected = ['Large Chai latte - 2.60, Regular Filter coffee - 1.50']
     result = split_products(cleaned_sales_d)
     assert expected == result    
