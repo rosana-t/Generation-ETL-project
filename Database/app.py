@@ -174,7 +174,9 @@ unique_product_list = unique_products(products_split_list)
 
 ready_data_for_products_table = split_unique_products(unique_product_list)
 
-print_first3_dic(ready_data_for_products_table)
+# print_first3_dic(ready_data_for_products_table)
+
+
 
 
 
@@ -185,17 +187,23 @@ third_step_listdic = remove_orders_data(second_step_listdic)
 
 ready_data_for_transaction_table = change_type_total_prize(third_step_listdic)
 
-print_first3_dic(ready_data_for_transaction_table)
-
+# print_first3_dic(ready_data_for_transaction_table)
 
 
 #calling Branch(table) functions--------------------------------------------------------------
 ready_data_for_branches_table = branch_location(cleaned_sales_data)
 
-print(ready_data_for_branches_table)
+# print(ready_data_for_branches_table)
 
 
 
 # connection = setup_db_connection()
 
-print(extract_data(filename))
+# print(extract_data(filename))
+
+x = item_quantity(second_step_listdic)
+# print(x)
+y = product_dict_in_order(x)
+# print(y)
+
+
