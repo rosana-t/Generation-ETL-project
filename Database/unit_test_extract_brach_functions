@@ -1,0 +1,43 @@
+from unittest.mock import patch
+import pytest
+from app import *
+
+#HP = Happy Path
+#UHP = Unhappy Path
+
+#-------------------------------- EXTRACT data from csv file into a list of dictionaries ---------------------------------------------------------------------------------------
+#HP
+def test_extract_data_HP():
+    filename = "csvfile_for_testing.csv"
+    expected = [{'date_time': '25/08/2021 09:00', 'location': 'Chesterfield', 'name': 'Richard Copeland', 'orders': 'Regular Flavoured iced latte - Hazelnut - 2.75, Large Latte - 2.45', 'total_price': '5.2', 'payment_method': 'CARD', 'card_number': '5494173772652516'}, 
+                {'date_time': '25/08/2021 09:02', 'location': 'Chesterfield', 'name': 'Scott Owens', 'orders': 'Large Flavoured iced latte - Caramel - 3.25, Regular Flavoured iced latte - Hazelnut - 2.75, Regular Flavoured iced latte - Caramel - 2.75, Large Flavoured iced latte - Hazelnut - 3.25, Regular Flavoured latte - Hazelnut - 2.55, Regular Flavoured iced latte - Hazelnut - 2.75', 'total_price': '17.3', 'payment_method': 'CARD', 'card_number': '6844802140812058'}, 
+                {'date_time': '25/08/2021 09:04', 'location': 'Chesterfield', 'name': 'Francis Strayhorn', 'orders': 'Large Flat white - 2.45, Regular Latte - 2.15', 'total_price': '4.6', 'payment_method': 'CARD', 'card_number': '9557104128182483'}]
+    result = extract_data(filename)
+    assert expected == result
+
+# # #UHP (file not found)
+# @patch("builtins.print")
+# def test_extract_data_UHP(mock_print):
+#     filename = "csvfile_for_tes.csv"
+#     expected = "An error occurred: file not found!"
+#     extract_data(filename)
+#     mock_print.assert_called_with(expected)
+
+
+# #------------------------------- Branch(table) functions ------------------------------------------------------------
+
+#HP
+def test_branch_location_HP():
+    raw_sales_d = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','name': 'Matthew Palmer','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'},
+                   {'date_time': '01-01-2020 09:01', 'location': 'Leeds','name': 'Matthew Palmer','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'},
+                   {'date_time': '01-01-2020 09:01', 'location': 'London','name': 'Matthew Palmer','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'}]
+    expected = ["Leeds", "London" ]
+    result = branch_location(raw_sales_d)
+    assert expected == result
+
+# #UHP
+# def test_extract_dat_UHP():
+#     expected = {}
+#     result = clean_sensitive_data()
+#     assert expected == result
+

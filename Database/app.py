@@ -3,10 +3,10 @@ from datetime import datetime
 # from connection_database import setup_db_connection, create_db_table, insert_data
 
 #-------------------------EXTRACT data from csv file into a list of dictionaries------------------------------------------------------------------
-def extract_data():
+def extract_data(filename):
     raw_sales_data = []
     try:
-        with open('chesterfield_25-08-2021_09-00-00.csv', 'r') as file:
+        with open(filename, 'r') as file:
             source_file = csv.DictReader(file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',')
             # next(source_file) #ignore the header row
             for row in source_file:
@@ -116,7 +116,7 @@ def print_orders_list(list_of_dic):
 
 # print the first 3 dictionaries from the list
 def print_first3_dic(list_of_dic):
-    for dic in [list_of_dic[0], list_of_dic[2], list_of_dic[3]]:
+    for dic in [list_of_dic[0], list_of_dic[1], list_of_dic[2]]:
         print(dic)
 
 def print_unique_orders_list(unique_orders_list):
@@ -126,7 +126,8 @@ def print_unique_orders_list(unique_orders_list):
 
 #------------------------------------Main App ----------------------------------------------------------------------------------------------
 # extract raw data
-raw_sales_data = extract_data()
+filename = "csvfile_for_testing.csv"
+raw_sales_data = extract_data(filename)
 # clean sensitive data
 cleaned_sales_data = clean_sensitive_data(raw_sales_data)
 
@@ -161,3 +162,4 @@ print(ready_data_for_branches_table)
 
 # connection = setup_db_connection()
 
+print(extract_data(filename))
