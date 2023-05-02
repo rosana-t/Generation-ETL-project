@@ -107,6 +107,42 @@ def branch_location(cleaned_sales_d):
             list_of_locations.append(location)
     return list_of_locations   
 
+#--------------------------Order(table) functions-------------------------------------------------------------------------
+def item_quantity(sales_data: list[dict]):
+    try:
+        for data in sales_data:
+            all_items_in_order = data['orders']
+            new_order = []
+            for item in set(all_items_in_order):
+                count = all_items_in_order.count(item)
+                qty = item + f", {count}"
+                new_order.append(qty)
+            data['orders'] = new_order
+    except Exception as e:
+        print(e)
+    
+    return sales_data
+
+def product_dict_in_order(sales_data: list[dict]):
+    try:
+        for transaction in sales_data:
+            order = transaction['orders']
+            edited_order = []
+            for item in order:
+                item_dict = {}
+                item_attribute = item.split()
+            
+                item_dict['product_size'] = item_attribute[0]
+                item_dict['product_name'] = " ".join(item_attribute[1:-2]).replace(" -", "")
+                item_dict['product_qty'] = int(item_attribute[-1])
+                item_dict['product_price'] = float(item_attribute[-2].replace(",", ""))
+                edited_order.append(item_dict)
+            transaction['orders'] = edited_order
+    except Exception as e:
+        print(e)
+
+    return sales_data
+
 #---------------------------EXTRA functions --------------------------------------------------------------------------------------------------------
 
 # print whole list of dictionaries for testing fonction
