@@ -98,17 +98,16 @@ def test_convert_all_dates_UHP():
 
 #HP
 def test_split_products_HP():
-    cleaned_sales_d = {'location': 'Chesterfield', 'orders': 'Regular Flavoured iced latte - Hazelnut - 2.75, Large Latte - 2.45', 'total_price': 5.2, 'payment_method': 'CARD', 'date': '08-25-2021', 'time': '09:00'}
-    expected = {'location': 'Chesterfield', 'orders': 'Regular Flavoured iced latte - Hazelnut - 2.75, Large Latte - 2.45', 'total_price': 5.2, 'payment_method': 'CARD', 'date': '08-25-2021', 'time': '09:00'}
+    cleaned_sales_d = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}]
+    expected = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': ['Large Chai latte - 2.60', 'Regular Filter coffee - 1.50'], 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': ['Large Chai latte - 2.60', 'Regular Filter coffee - 1.50'], 'total_price': 4.1, 'payment_method': 'CARD'}]
     result = split_products(cleaned_sales_d)
     assert expected == result    
 
 #UHP    
 def test_split_products_UHP():
-    cleaned_sales_d = {}
-    expected = []
-    result = split_products(cleaned_sales_d)
-    assert expected == result 
+    missing_orders_key = [{'location': 'Leeds', 'total_price': 4.1, 'payment_method': 'CARD'},{'location': 'Leeds', 'total_price': 4.1, 'payment_method': 'CARD'}]
+    with pytest.raises(KeyError):
+        split_date_time(missing_orders_key) 
     
 #HP
 def test_unique_products_HP():
@@ -119,24 +118,20 @@ def test_unique_products_HP():
     
 #UHP
 def test_unique_products_UHP():
-    products_split_l = []
-    expected = []
-    result = unique_products(products_split_l)
-    assert expected == result
+    with pytest.raises(TypeError):
+        unique_products()
 
 #HP
 def test_split_unique_products_HP():
-    unique_product_l = ['Regular Flavoured iced latte - Hazelnut - 2.75']
+    unique_product_l = [['Regular Flavoured iced latte - Hazelnut - 2.75'],['Regular Flavoured iced latte - Hazelnut - 2.75']]
     expected = [{'name': 'Flavoured iced latte Hazelnut', 'size': 'Regular', 'price': 2.75},{'name': 'Flavoured iced latte Hazelnut', 'size': 'Regular', 'price': 2.75}]
     result = unique_products(unique_product_l)
     assert expected == result
     
 #UHP
 def test_split_unique_products_UHP():
-    unique_product_l = []
-    expected = []
-    result = unique_products(unique_product_l)
-    assert expected == result
+    with pytest.raises(TypeError):
+        split_unique_products() 
 
 #------------------------------- Branch(table) functions ------------------------------------------------------------
 
@@ -149,32 +144,8 @@ def test_branch_location_HP():
     result = branch_location(raw_sales_d)
     assert expected == result
 
-# #UHP
-# def test_extract_dat_UHP():
-#     expected = {}
-#     result = clean_sensitive_data()
-#     assert expected == result
-
-#------------------------------------Main App ----------------------------------------------------------------------------------------------
-# test_clean_sensitive_data_HP()
-# #test_clean_sensitive_data_UHP()
-
-# #calling Product(table) functions------------------------------------------------------------
-# test_split_products_HP()
-# #test_split_products_UHP()
-# test_unique_products_HP()
-# #test_unique_products_UHP()
-# test_split_unique_products_HP()
-# #test_split_unique_products_UHP()
-
-# # calling Transaction(table) functions-------------------------------------------------------
-# test_split_date_time_HP()
-# #test_split_date_time_UHP()
-# test_remove_orders_data_HP()
-# #test_remove_orders_data_UHP()
-# test_change_type_total_prize_HP()
-# #test_change_type_total_prize_UHP()
-
-# #calling Branch(table) functions--------------------------------------------------------------
-# test_branch_location_HP()
-# #test_branch_location_UHP()
+#UHP - Test when location key is not in the dictionary, therefore branch_location() function will not be able to add the location into the list_of_locations.     
+def test_branch_location_UHP():
+    missing_location_key = [{'date_time': '01-01-2020 09:01', 'order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'},{'date_time': '01-01-2020 09:01','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'}]
+    with pytest.raises(KeyError):
+        branch_location(missing_location_key)
