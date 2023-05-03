@@ -33,11 +33,11 @@ def test_clean_sensitive_data_HP():
     result = clean_sensitive_data(raw_sales_d)
     assert expected == result
 
-#UHP
-# def test_clean_sensitive_data_UHP():
-#     expected = {}
-#     result = clean_sensitive_data()
-#     assert expected == result
+#UHP - Test when name key is not in the dictionary, therefore clean_sensitive_data() function will not be able to delete the name key.     
+def test_clean_sensitive_data_UHP():
+    missing_name_key = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'}]
+    with pytest.raises(KeyError):
+        clean_sensitive_data(missing_name_key)
 
 #-------------------------------- Transaction(table) test_functions ------------------------------------------------------------------------------------
 
@@ -98,8 +98,8 @@ def test_convert_all_dates_UHP():
 
 #HP
 def test_split_products_HP():
-    cleaned_sales_d = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}]
-    expected = ['Large Chai latte - 2.60, Regular Filter coffee - 1.50']
+    cleaned_sales_d = {'location': 'Chesterfield', 'orders': 'Regular Flavoured iced latte - Hazelnut - 2.75, Large Latte - 2.45', 'total_price': 5.2, 'payment_method': 'CARD', 'date': '08-25-2021', 'time': '09:00'}
+    expected = {'location': 'Chesterfield', 'orders': 'Regular Flavoured iced latte - Hazelnut - 2.75, Large Latte - 2.45', 'total_price': 5.2, 'payment_method': 'CARD', 'date': '08-25-2021', 'time': '09:00'}
     result = split_products(cleaned_sales_d)
     assert expected == result    
 
@@ -112,8 +112,8 @@ def test_split_products_UHP():
     
 #HP
 def test_unique_products_HP():
-    products_split_l = ['Large Chai latte - 2.60, Regular Filter coffee - 1.50']
-    expected = []
+    products_split_l = ['Large Chai latte - 2.60', 'Large Chai latte - 2.60']
+    expected = ['Large Chai latte - 2.60']
     result = unique_products(products_split_l)
     assert expected == result
     
@@ -126,8 +126,8 @@ def test_unique_products_UHP():
 
 #HP
 def test_split_unique_products_HP():
-    unique_product_l = []
-    expected = []
+    unique_product_l = ['Regular Flavoured iced latte - Hazelnut - 2.75']
+    expected = [{'name': 'Flavoured iced latte Hazelnut', 'size': 'Regular', 'price': 2.75},{'name': 'Flavoured iced latte Hazelnut', 'size': 'Regular', 'price': 2.75}]
     result = unique_products(unique_product_l)
     assert expected == result
     
