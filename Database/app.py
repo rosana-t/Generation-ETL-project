@@ -108,6 +108,17 @@ def branch_location(cleaned_sales_d):
     return list_of_locations   
 
 #--------------------------Order(table) functions-------------------------------------------------------------------------
+def split_items_for_transactions(sales_data: list[dict]):
+    try:
+        for data in sales_data:
+            order = data['orders']
+            separated_order = order.split(',')
+            data['orders'] = separated_order 
+    except Exception as e:
+        print(e)
+    
+    return sales_data
+
 def item_quantity(sales_data: list[dict]):
     try:
         for data in sales_data:
@@ -161,49 +172,42 @@ def print_unique_orders_list(unique_orders_list):
 
 
 #------------------------------------Main App ----------------------------------------------------------------------------------------------
-# extract raw data
-filename = "csvfile_for_testing.csv"
-raw_sales_data = extract_data(filename)
-# clean sensitive data
-cleaned_sales_data = clean_sensitive_data(raw_sales_data)
+if __name__ =='__main__':
+    csv_file = 'csvfile_for_testing.csv'
+    raw_data = extract_data(csv_file)
 
+    cleaned_data = clean_sensitive_data(raw_data)
+    date_time_split_tranactions = split_date_time(cleaned_data)
+    formatted_date = convert_all_dates(date_time_split_tranactions, ['date'])
+    transactions = change_type_total_prize(formatted_date)
+    print("\nTransformed Data ready to be converted in 3NF\n")
+    for i in transactions:
+        print(i)
 
-#calling Product(table) functions------------------------------------------------------------
-products_split_list = split_products(cleaned_sales_data)
-unique_product_list = unique_products(products_split_list)
+    #branches
+    list_of_branches = branch_location(transactions)
+    print("\nBranch table\n")
+    print(list_of_branches)
 
-ready_data_for_products_table = split_unique_products(unique_product_list)
+    #products
+    product_list = split_products(transactions)
+    unique_product = unique_products(product_list)
+    list_of_unique_product_dicts = split_unique_products(unique_product)
+    print("\nProducts table\n")
+    for i in list_of_unique_product_dicts:
+        print(i)
 
-# print_first3_dic(ready_data_for_products_table)
+    #orders
+    transformed_data = split_items_for_transactions(transactions)
+    items_with_qty_per_transaction = item_quantity(transformed_data)
+    data_for_orders_table = product_dict_in_order(items_with_qty_per_transaction)
+    print("\nOrders table\n")
+    for i in data_for_orders_table:
+        print(i)
 
-
-
-
-
-# calling Transaction(table) functions-------------------------------------------------------
-first_step_listdic = split_date_time(cleaned_sales_data)
-second_step_listdic = convert_all_dates(first_step_listdic, ['date'])
-third_step_listdic = remove_orders_data(second_step_listdic)
-
-ready_data_for_transaction_table = change_type_total_prize(third_step_listdic)
-
-# print_first3_dic(ready_data_for_transaction_table)
-
-
-#calling Branch(table) functions--------------------------------------------------------------
-ready_data_for_branches_table = branch_location(cleaned_sales_data)
-
-# print(ready_data_for_branches_table)
-
-
-
-# connection = setup_db_connection()
-
-# print(extract_data(filename))
-
-x = item_quantity(second_step_listdic)
-# print(x)
-y = product_dict_in_order(x)
-# print(y)
-
+    # #transactions
+    transaction_table_data = remove_orders_data(data_for_orders_table)
+    print("\nTransaction tables\n")
+    for i in transaction_table_data:
+        print(i)
 
