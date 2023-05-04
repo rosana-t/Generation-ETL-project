@@ -1,60 +1,45 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >
   Template to deploy a lambda which is triggered by an S3 event.
+
 Parameters:
   DeploymentBucket:
     Type: String
     Description: Enter the name of the S3 bucket where your deployment package is.
+    Default: delon9-daily-grind-lambda-zips
   DeploymentPackageKey:
     Type: String
     Description: Enter the name of the S3 key of your deployment package.
-  BucketName:
+    Default: daily-grind.zip
+  BucketNameRawData:
     Type: String
     Description: Enter the name of S3 bucket you wish to create.
+    Default: delon9-daily-grind-raw-data
 
 Resources:
-  LambdaFunctionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-        - Effect: Allow
-          Principal:
-            Service:
-              - lambda.amazonaws.com
-          Action:
-            - sts:AssumeRole
-      Path: "/"
-      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/ScopePermissions
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonS3FullAccess
-      Policies:
-      - PolicyName: LambdaLogsPolicy
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-          - Effect: Allow
-            Action:
-              - logs:CreateLogGroup
-              - logs:CreateLogStream
-              - logs:PutLogEvents
-            Resource: '*'
-
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Runtime: python3.9
-      Handler: index.handler
-      Role: !GetAtt LambdaFunctionRole.Arn
+      FunctionName: Daily-Grind-Extract-CSV 
+      Runtime: python3.10
+      Handler: lambda_function.lambda_handler #YOUR-HANDLER-NAME(e.g. app.main.lambda_handler)
+      Role: arn:aws:iam::015206308301:role/lambda-execution-role
+      Timeout: 300
       Code:
         S3Bucket: !Ref DeploymentBucket
         S3Key: !Ref DeploymentPackageKey
+      VpcConfig:
+        SecurityGroupIds:
+          - SECURITY-GROUP-ID
+        SubnetIds:
+          - SUBNET-ID
 
   S3Bucket:
     Type: 'AWS::S3::Bucket'
+    DependsOn:
+      - S3BucketPermission
     Properties:
-      BucketName: !Ref BucketName
+      BucketName: !Ref BucketNameRawData
       NotificationConfiguration:
         LambdaConfigurations:
           - Event: s3:ObjectCreated:*
@@ -66,5 +51,4 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !Ref LambdaFunction
       Principal: s3.amazonaws.com
-      SourceArn: !GetAtt S3Bucket.Arn
-
+      SourceArn: !Sub "arn:aws:s3:::${BucketNameRawData}"
