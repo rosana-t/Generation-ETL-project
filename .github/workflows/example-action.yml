@@ -1,13 +1,64 @@
-name: list-repo
+name: Github action for Final-Group((Daily-Grind)) Project 
 
 on: push
 
 jobs:
-  list-repo-files:
-    name: List files in repository
-    runs-on: ubuntu-latest
+  # list-repo-files:
+  #   name: List files in repository
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: checkout-repo
+  #       uses: actions/checkout@v2
+  #     - name: list-dir
+  #       run: ls -laR # Recursively list directory contents
+
+  deploy-lambda:
+    run-on:
     steps:
-      - name: checkout-repo
+      - name: Checkout-repo
         uses: actions/checkout@v2
-      - name: list-dir
-        run: ls -laR # Recursively list directory contents
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+      #-----------for testing (install dependecies and run the test)----------------------------------   
+      - name: Install test dependencies
+        run: python3 -m pip install -r requirements-test.txt
+
+      - name: Run Unit test
+        run: python3 -m pytest -v
+      #-----------for lambda (install dependecies and zip up the files)-------------------------------
+      - name: Install Lammbda dependecies
+        run: |
+          python3 -m pip install --platform manylinux2014_x86_64 \
+            --target=src --implementation cp --python-version 3.10 \
+            --only-binary=:all: --upgrade -r requirements.txt
+
+      - name: Zip up Lambda code
+        run: |
+          cd database
+          zip -r daily_grind.zip .
+          pwd
+      # #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
+      # - name: Configure AWS credentials from delon9 account
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: eu-west-1
+
+      # - name: Copy Zip folder to S3 (deployment/zip)bucket
+      #   run: |
+      #     pwd
+      #     ls -la
+      #     aws s3 cp database/daily_grind.zip s3://delon9-daily-grind-lambda-zips
+          
+      # - name: Deploy Cloudformation stack
+      #   run: aws cloudformation deploy --stack-name delon9-daily-grind-lambda-zips-stack --template-file template_daily_grind.yaml
+
+              # aws cloudformation deploy --stack-name delon9-daily-grind-stack \
+              #     --template-file template_daily_grind.yaml --region eu-west-1 \
+              #     --capabilities CAPABILITY_IAM --profile ${profile_name}
+
+
+
