@@ -16,52 +16,53 @@ in a single server. By being able to easily query the company's data as a whole,
 
 #Elevator Pitch
 
-For Super Cafe
-Who - they want to target new and existing customers and also understand what products are selling well. They want to access data from different stores and use that data to identify trends within the sales 
-The Super cafe website
-Is a  - A website that allows the client to view data to help grow their business 
-That - Allows the client to view customer trends and data from different shops
-Unlike - Mini project app where we had no trends or existing data
-Our Product - Will allow client to view trends due to the ETL pipelines 
+For Super Cafe:
+Who - want to target new and existing customers and also understand what products are selling well. They want to access data from different stores and use that data to identify trends within the sales.
+
+The Super cafe website:
+Is a  - A website that allows the client to view data to help grow their business.
+That - Allows the client to view customer trends and data from different shops.
+Unlike - Mini project app where we had no trends or existing data.
+Our Product - Will allow client to view trends due to the ETL pipelines. 
 
 # Scope
-Time - Limited time to do the project as we only have 5/6 weeks, therefore focus on the key requirements. The availability of the team  (1)
-Quality - Functional code with some unit testing (2)
-Budget - Resources are already given to us? (1)
-Scope - Must be able to read, upload and transfer data from each branch to a database so the client can increase the product sales and be able to grow their business from viewing the trends (3/4)
+Time - Limited time to do the project as we only have 5/6 weeks, therefore focus on the key requirements. The availability of the team (1).
+Quality - Functional code with unit testing (2).
+Budget - Resources given by the instructors during the program (1).
+Scope - Must be able to read, transform, upload and transfer data from each branch to a database so the client can increase the product sales and be able to grow their business from viewing the trends (3/4).
 
 # MoSCoW
 
 Must Have -
-Basic CLI for client input and output 
-Read existing data from the CSV files 
-Store, upload and edit data for the CSV files 
-AWS Database and build ETL pipelines 
-Docker
-Python Code
-Agile
-Git Hub
-Visualise the data using graphs - Jupiter 
+Basic CLI for client input and output.
+Read existing data from the CSV files .
+Store, upload and transform data for the CSV files.
+AWS Database and build ETL pipelines.
+Docker Compose.
+Python Code.
+Agile.
+Git Hub.
+Visualise the data using graphs - Jupyter.
 
 Should Have - 
-Easy to read CLI for the user 
-Normalise the data 
+Easy to read CLI for the user.
+Normalise the data.
 
 Could Have - 
-Another website for client interface 
-Draw a plan of are project so the team are all on the same page
-Being able to remove sensitive data
-Login for security 
+Another website for client interface.
+Draw a plan of our project so the team are all on the same page.
+Being able to remove sensitive data.
+Login for security.
+Improve the access to the data for the client(connection between products and branches).
 
 Won't Have - 
-Extracted data we do not need
-Each branch won’t have the transformed data, only management team etc. of the client
+Extracted data that we don't need.
+Each branch won’t have the transformed data, only management team etc. of the client.
 
 # The approach
 ![Daily Grind 1](https://user-images.githubusercontent.com/127961119/231802098-93dc852a-dcda-4a7b-9156-9619b74946ad.png)
 
 # SMART goal
-
 Organise our team to work cohesively together and building upon our strengths and helping each other in are weaknesses.
 
 # Ways of working
