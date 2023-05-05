@@ -13,9 +13,9 @@ jobs:
   #       run: ls -laR # Recursively list directory contents
 
   deploy-lambda:
-    #runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout-repo
+      - name: checkout-repo
         uses: actions/checkout@v2
       - name: Setup Python
         uses: actions/setup-python@v2
