@@ -24,7 +24,7 @@ def create_branch_table(connection):
         with connection.cursor() as cursor:
             postgres = """
             CREATE TABLE IF NOT EXISTS branch(
-            branch_id serial PRIMARY KEY,
+            branch_id int identity(1,1) PRIMARY KEY,
             branch_location VARCHAR (30) NOT NULL
             );
             """
@@ -39,7 +39,7 @@ def create_product_table(connection):
         with connection.cursor() as cursor:
             postgres = """
             CREATE TABLE IF NOT EXISTS product(
-            product_id serial PRIMARY KEY,
+            product_id int identity(1,1) PRIMARY KEY,
             product_name VARCHAR (30) NOT NULL,
             product_size VARCHAR (7) NOT NULL,
             product_price DECIMAl(10,2) NOT NULL,
@@ -55,7 +55,7 @@ def create_transaction_table(connection):
         with connection.cursor() as cursor:
             postgres = """
             CREATE TABLE IF NOT EXISTS transaction(
-            transaction_id serial PRIMARY KEY,
+            transaction_id int identity(1,1) PRIMARY KEY,
             transaction_date date NOT NULL,
             transaction_time time NOT NULL,
             total_price DECIMAL(10,2) NOT NULL,

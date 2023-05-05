@@ -2,7 +2,9 @@ def load_into_branch_table(connection, location):
     try:
         with connection.cursor() as cursor:
             for loc in location:
-                sql_insert_query = f"INSERT INTO branch (branch_location) VALUES (%s)"""
+                sql_insert_query = f"""INSERT INTO branch (branch_location) \
+                                SELECT (%s)\
+                                WHERE NOT EXISTS (SELECT branch_location FROM branch WHERE branch_location= (%s)"""
                 cursor.execute(sql_insert_query, loc)
             connection.commit()
     except Exception as e:
@@ -13,7 +15,10 @@ def load_into_product_table(connection, product_info):
     try:
         with connection.cursor() as cursor:
             for product in product_info:
-                sql_insert_query = f"INSERT INTO product (product_name, product_size, product_price) VALUES (%s, %s, %s)"""
+                sql_insert_query = f"""INSERT INTO product (product_name, product_size, product_price) \
+                                   SELECT (%s, %s, %s)\
+                                   WHERE NOT EXISTS (SELECT product_name, product_size, product_price from product FROM product \
+                                    WHERE product_name = (%s), product_size = (%), product_price = (%))"""
                 cursor.execute(sql_insert_query, product["name"], product["size"], product["price"])
             connection.commit()
     except Exception as e:

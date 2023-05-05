@@ -172,7 +172,7 @@ def print_unique_orders_list(unique_orders_list):
 
 
 #------------------------------------Main App ----------------------------------------------------------------------------------------------
-if __name__ =='__main__':
+#if __name__ =='__main__':
     csv_file = 'csvfile_for_testing.csv'
     raw_data = extract_data(csv_file)
 
