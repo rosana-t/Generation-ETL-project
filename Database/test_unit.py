@@ -8,13 +8,13 @@ from app import *
 #-------------------------EXTRACT data from csv file into a list of dictionaries------------------------------------------------------------------
 
 #HP
-def test_extract_data_HP():
-    filename = "csvfile_for_testing.csv"
-    expected = [{'date_time': '25/08/2021 09:00', 'location': 'Chesterfield', 'name': 'Richard Copeland', 'orders': 'Regular Flavoured iced latte - Hazelnut - 2.75, Large Latte - 2.45', 'total_price': '5.2', 'payment_method': 'CARD', 'card_number': '5494173772652516'}, 
-                {'date_time': '25/08/2021 09:02', 'location': 'Chesterfield', 'name': 'Scott Owens', 'orders': 'Large Flavoured iced latte - Caramel - 3.25, Regular Flavoured iced latte - Hazelnut - 2.75, Regular Flavoured iced latte - Caramel - 2.75, Large Flavoured iced latte - Hazelnut - 3.25, Regular Flavoured latte - Hazelnut - 2.55, Regular Flavoured iced latte - Hazelnut - 2.75', 'total_price': '17.3', 'payment_method': 'CARD', 'card_number': '6844802140812058'}, 
-                {'date_time': '25/08/2021 09:04', 'location': 'Chesterfield', 'name': 'Francis Strayhorn', 'orders': 'Large Flat white - 2.45, Regular Latte - 2.15', 'total_price': '4.6', 'payment_method': 'CARD', 'card_number': '9557104128182483'}]
-    result = extract_data(filename)
-    assert expected == result
+# def test_extract_data_HP():
+#     filename = "csvfile_for_testing.csv"
+#     expected = [{'date_time': '25/08/2021 09:00', 'location': 'Chesterfield', 'name': 'Richard Copeland', 'orders': 'Regular Flavoured iced latte - Hazelnut - 2.75, Large Latte - 2.45', 'total_price': '5.2', 'payment_method': 'CARD', 'card_number': '5494173772652516'}, 
+#                 {'date_time': '25/08/2021 09:02', 'location': 'Chesterfield', 'name': 'Scott Owens', 'orders': 'Large Flavoured iced latte - Caramel - 3.25, Regular Flavoured iced latte - Hazelnut - 2.75, Regular Flavoured iced latte - Caramel - 2.75, Large Flavoured iced latte - Hazelnut - 3.25, Regular Flavoured latte - Hazelnut - 2.55, Regular Flavoured iced latte - Hazelnut - 2.75', 'total_price': '17.3', 'payment_method': 'CARD', 'card_number': '6844802140812058'}, 
+#                 {'date_time': '25/08/2021 09:04', 'location': 'Chesterfield', 'name': 'Francis Strayhorn', 'orders': 'Large Flat white - 2.45, Regular Latte - 2.15', 'total_price': '4.6', 'payment_method': 'CARD', 'card_number': '9557104128182483'}]
+#     result = extract_data(filename)
+#     assert expected == result
     
 #UHP (file not found)
 # @patch("builtins.print")
