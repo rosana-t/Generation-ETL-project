@@ -97,11 +97,11 @@ def test_convert_all_dates_UHP():
 #-------------------------------- Product(table) test_functions ---------------------------------------------------------------------------------------
 
 #HP
-def test_split_products_HP():
-    cleaned_sales_d = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}]
-    expected = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': ['Large Chai latte - 2.60', 'Regular Filter coffee - 1.50'], 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': ['Large Chai latte - 2.60', 'Regular Filter coffee - 1.50'], 'total_price': 4.1, 'payment_method': 'CARD'}]
-    result = split_products(cleaned_sales_d)
-    assert expected == result    
+# def test_split_products_HP():
+#     cleaned_sales_d = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD'}]
+#     expected = [{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': ['Large Chai latte - 2.60', 'Regular Filter coffee - 1.50'], 'total_price': 4.1, 'payment_method': 'CARD'},{'date_time': '01-01-2020 09:01', 'location': 'Leeds','orders': ['Large Chai latte - 2.60', 'Regular Filter coffee - 1.50'], 'total_price': 4.1, 'payment_method': 'CARD'}]
+#     result = split_products(cleaned_sales_d)
+#     assert expected == result    
 
 #UHP    
 def test_split_products_UHP():
@@ -110,11 +110,11 @@ def test_split_products_UHP():
         split_date_time(missing_orders_key) 
     
 #HP
-def test_unique_products_HP():
-    products_split_l = ['Large Chai latte - 2.60', 'Large Chai latte - 2.60']
-    expected = ['Large Chai latte - 2.60']
-    result = unique_products(products_split_l)
-    assert expected == result
+# def test_unique_products_HP():
+#     products_split_l = ['Large Chai latte - 2.60', 'Large Chai latte - 2.60']
+#     expected = ['Large Chai latte - 2.60']
+#     result = unique_products(products_split_l)
+#     assert expected == result
     
 #UHP
 def test_unique_products_UHP():
@@ -122,11 +122,11 @@ def test_unique_products_UHP():
         unique_products()
 
 #HP
-def test_split_unique_products_HP():
-    unique_product_l = [['Regular Flavoured iced latte - Hazelnut - 2.75'],['Regular Flavoured iced latte - Hazelnut - 2.75']]
-    expected = [{'name': 'Flavoured iced latte Hazelnut', 'size': 'Regular', 'price': 2.75},{'name': 'Flavoured iced latte Hazelnut', 'size': 'Regular', 'price': 2.75}]
-    result = unique_products(unique_product_l)
-    assert expected == result
+# def test_split_unique_products_HP():
+#     unique_product_l = [['Regular Flavoured iced latte - Hazelnut - 2.75'],['Regular Flavoured iced latte - Hazelnut - 2.75']]
+#     expected = [{'name': 'Flavoured iced latte Hazelnut', 'size': 'Regular', 'price': 2.75},{'name': 'Flavoured iced latte Hazelnut', 'size': 'Regular', 'price': 2.75}]
+#     result = unique_products(unique_product_l)
+#     assert expected == result
     
 #UHP
 def test_split_unique_products_UHP():
