@@ -1,19 +1,7 @@
 import json
 import boto3
 import psycopg2
-
-
-
-def set_up_rs_connection(host = RS_HOST, port = RS_PORT, dbname = RS_DATABASE, user = RS_USER, password = RS_PASSWORD):
-    
-    conn = psycopg2.connect(
-        host = RS_HOST,
-        port = RS_PORT,
-        dbname = RS_DATABASE,
-        user = RS_USER,
-        password = RS_PASSWORD)
-    
-    return conn
+from connection_database import set_up_rs_connection
     
     
 def create_branch_table(connection): 
@@ -21,7 +9,7 @@ def create_branch_table(connection):
         with connection.cursor() as cursor:
             postgres = """
             CREATE TABLE IF NOT EXISTS branch(
-            branch_id serial PRIMARY KEY,
+            branch_id int identity (1,1) PRIMARY KEY,
             branch_location VARCHAR (30) NOT NULL
             );
             """
@@ -36,7 +24,7 @@ def create_product_table(connection):
         with connection.cursor() as cursor:
             postgres = """
             CREATE TABLE IF NOT EXISTS product(
-            product_id serial PRIMARY KEY,
+            product_id int identity (1,1) PRIMARY KEY,
             product_name VARCHAR (30) NOT NULL,
             product_size VARCHAR (7) NOT NULL,
             product_price DECIMAl(10,2) NOT NULL,
@@ -52,7 +40,7 @@ def create_transaction_table(connection):
         with connection.cursor() as cursor:
             postgres = """
             CREATE TABLE IF NOT EXISTS transaction(
-            transaction_id serial PRIMARY KEY,
+            transaction_id int identity (1,1) PRIMARY KEY,
             transaction_date date NOT NULL,
             transaction_time time NOT NULL,
             total_price DECIMAL(10,2) NOT NULL,
@@ -89,23 +77,33 @@ def create_order_table(connection):
 
 
 def lambda_handler(event, context):
+    try:
+        print(f"lambda_handler connecting to Redshift")
+        
+        ssm_client = boto3.client('ssm')
+        parameter_details = ssm_client.get_parameter(Name='daily-grind-redshift-settings')
+        redshift_details = json.loads(parameter_details['Parameter']['Value'])
+            
+        connection = set_up_rs_connection(
+                rs_host= redshift_details["host"],
+                rs_port= redshift_details["port"],
+                rs_dbname= redshift_details["database-name"],
+                rs_user= redshift_details["user"],
+                rs_password= redshift_details["password"])
+                
+        print(f"lambda_handler: connection created")
+                
+        create_branch_table(connection)
+        print(f"lambda_handler: branch table created")
+        
+        create_product_table(connection)
+        print(f"lambda_handler: product table created")
+        
+        create_transaction_table(connection)
+        print(f"lambda_handler: transaction table created")
+        
+        create_order_table(connection)
+        print(f"lambda_handler: order table created")
     
-    client = boto3.client()
-    
-    res = client.execute_statement(
-        ClusterIdentifier = ,
-        Database = ,
-        DbUser = ,
-        Sql = 
-    create_branch_table(conn)
-    create_product_table(conn)
-    create_transaction_table(conn)
-    create_order_table(conn)
-    )
-    
-    
-    
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Hello from Lambda!')
-    }
+    except Exception as error:
+        print("lambda_handler error occurred: " + str(error))
