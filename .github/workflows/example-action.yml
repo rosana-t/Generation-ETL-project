@@ -43,7 +43,7 @@ jobs:
           cd Database
           pwd
           ls -la
-          zip -r daily_grind_lambda.zip .
+          zip -r daily-grind-lambda.zip .
           pwd
           ls -la
       #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
