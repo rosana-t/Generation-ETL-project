@@ -7,15 +7,6 @@ on: push
   #     - main
 
 jobs:
-#   list-repo-files:
-#     name: List files in repository
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: checkout-repo
-#         uses: actions/checkout@v2
-#       - name: list-dir
-#         run: ls -laR # Recursively list directory contents blablabla
-
   deploy-lambda:
     runs-on: ubuntu-latest
     steps:
@@ -47,7 +38,7 @@ jobs:
           pwd
       #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
       - name: Configure AWS credentials from delon9 account
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
