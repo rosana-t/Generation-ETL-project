@@ -38,13 +38,14 @@ jobs:
           --target=Database --implementation cp --python-version 3.10 \
           --only-binary=:all: --upgrade -r requirements-lambda.txt
 
-      - name: Zip up Lambda code
+      - name: Zip up Lambda code # in github "zip warning: name not matched: daily_grind.zip" I can not find the file anywhere
         run: |
           cd Database
           pwd
           ls -la
-          zip -r Database daily_grind.zip .
+          zip -r Database daily_grind_lambda.zip .
           pwd
+          ls -la
       #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
       # - name: Configure AWS credentials from delon9 account
       #   uses: aws-actions/configure-aws-credentials@v2
