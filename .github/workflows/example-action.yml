@@ -27,22 +27,25 @@ jobs:
           python-version: "3.10"
       #-----------for testing (install dependecies and run the test)----------------------------------   
       - name: Install test dependencies
-        run: python3 -m pip install -r requirements-test.txt
+        run: |
+            pwd
+            python3 -m pip install -r requirements-test.txt
 
       - name: Run Unit test
         run: python3 -m pytest -v
       #-----------for lambda (install dependecies and zip up the files)-------------------------------
       - name: Install Lammbda dependecies
         run: |
+          pwd
           python3 -m pip install --platform manylinux2014_x86_64 \
-            --target=database --implementation cp --python-version 3.10 \
+            --target=Database --implementation cp --python-version 3.10 \
             --only-binary=:all: --upgrade -r requirements-lambda.txt
 
       - name: Zip up Lambda code
         run: |
           pwd
           ls -la
-          cd database
+          cd Database
           pwd
           ls -la
           zip -r daily_grind.zip .
