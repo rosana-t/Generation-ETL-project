@@ -27,28 +27,24 @@ jobs:
           python-version: "3.10"
       #-----------for testing (install dependecies and run the test)----------------------------------   
       - name: Install test dependencies
-        run: |
-            pwd
-            python3 -m pip install -r requirements-test.txt
+        run: python3 -m pip install -r requirements-test.txt
 
       - name: Run Unit test
         run: python3 -m pytest -v
       #-----------for lambda (install dependecies and zip up the files)-------------------------------
-      - name: Install Lammbda dependecies
+      - name: Install Lammbda dependecies # if I add just py it is working in vscode but in github saying "command not found"
         run: |
           pwd
-          py -m pip install --platform manylinux2014_x86_64 \
+          python3 -m pip install --platform manylinux2014_x86_64 \  
             --target=Database --implementation cp --python-version 3.10 \
-            --only-binary=:all: --upgrade -r requirements-lambda.txt
+            --only-binary=:all: --upgrade -r requirements-lambda.txt 
 
       - name: Zip up Lambda code
         run: |
-          pwd
-          ls -la
           cd Database
           pwd
           ls -la
-          zip -r daily_grind.zip .
+          zip -r Database daily_grind.zip .
           pwd
       #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
       # - name: Configure AWS credentials from delon9 account
