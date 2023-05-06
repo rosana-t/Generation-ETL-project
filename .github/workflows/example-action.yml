@@ -14,7 +14,7 @@ jobs:
 #       - name: checkout-repo
 #         uses: actions/checkout@v2
 #       - name: list-dir
-#         run: ls -laR # Recursively list directory contents blabla
+#         run: ls -laR # Recursively list directory contents blablabla
 
   deploy-lambda:
     runs-on: ubuntu-latest
