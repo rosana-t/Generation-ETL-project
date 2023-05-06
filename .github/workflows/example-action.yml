@@ -41,24 +41,25 @@ jobs:
       - name: Zip up Lambda code
         run: |
           pwd
-          cd database
           ls -la
+          cd database
           pwd
+          ls -la
           zip -r daily_grind.zip .
           pwd
       #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
-      - name: Configure AWS credentials from delon9 account
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
+      # - name: Configure AWS credentials from delon9 account
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: eu-west-1
 
-      - name: Copy Zip folder to S3 (deployment/zip)bucket
-        run: |
-          pwd
-          ls -la
-          aws s3 cp database/daily_grind.zip s3://delon9-daily-grind-lambda-zips
+      # - name: Copy Zip folder to S3 (deployment/zip)bucket
+      #   run: |
+      #     pwd
+      #     ls -la
+      #     aws s3 cp database/daily_grind.zip s3://delon9-daily-grind-lambda-zips
           
       # - name: Deploy Cloudformation stack
       #   run: aws cloudformation deploy --stack-name delon9-daily-grind-lambda-zips-stack --template-file template_daily_grind.yaml
