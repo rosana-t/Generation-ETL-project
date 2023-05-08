@@ -148,7 +148,7 @@ Open a Git Bash terminal in the daily-grind-final-project directory
 
 To create a branch enter:
 ```ruby
-$ git branch and name the branch the Trello ticket number eg. $ git branch 8. Updating README file
+$ git branch (name the branch on the Trello ticket number) eg. $ git branch 8._Updating_README_file
 ```
 
 To move into the new branch in your local repository enter:
@@ -166,7 +166,7 @@ Add, Commit and Push the branch to the main repository. Check in Github if the b
 ## Pull Request: 
 When we have finished writing our code and want to merge it, we will carry out a pull request and assign the scrum master to review the code. 
 
-Merging:
+## Merging the branches:
 Once the scrum master and the team are happy with the code we will merge the code with:
 ```ruby
 $ git checkout main (to return to the main branch)
