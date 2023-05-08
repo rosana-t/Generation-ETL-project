@@ -181,3 +181,45 @@ The branch will be deleted once the ticket is complete with:
 $ git - - delete <name of branch> 
 ```
 
+## PostgreSQL and Docker compose:
+To install psycopg2:
+```ruby
+py -m pip install psycopg2
+```
+
+To install python-dotenv:
+```ruby
+py -m pip install python-dotenv
+```
+
+To pull PostgreSQL docker image:
+```ruby
+docker pull postgres
+```
+
+To start the container:
+```ruby
+docker-compose up -d
+```
+
+## AWS:
+To login:
+```ruby
+aws sso login --profile <profile_name>
+```
+
+## Unit-Test
+To install pytest:
+```ruby
+py -m pip install pytest 
+```
+To run a single test:
+```ruby
+py -m pytest <name of the test_function> -v
+```
+
+To run all the tests:
+```ruby
+py -m pytest -v
+```
+
