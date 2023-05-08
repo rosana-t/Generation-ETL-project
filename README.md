@@ -128,8 +128,11 @@ from app import *
 How to set up a Python 3.10 environment for the Final Project (Windows, GitBash):
 
 1.) Download Python 3.10 latest version to your computer and install it.
+
 2.) Setup a new virtual environment in VsCode using GitBash:
+
 		- Open the daily-grind-final-project folder in VsCode
+		
 		- Create a virtual environment: 
 		```
 		<py -3.10 -m venv .venv>
@@ -147,8 +150,9 @@ To create a branch enter:
 $ git branch and name the branch the Trello ticket number eg. $ git branch 8. Updating README file
 ```
 
+To move into the new branch enter:
 ```
-Enter  $ git checkout <name of branch> 
+$ git checkout <name of branch> 
 ```
 
 Enter $ git push --set-upstream origin <name of branch> 
