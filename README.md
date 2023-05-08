@@ -70,7 +70,7 @@ https://docs.google.com/document/d/19KHkB9tTL4QzMGErdRBYX49L5XkttYZl1tBRzudbow8/
 
 # Required libraries and modules
 For the app.py:
-```
+```ruby
 import csv
 from datetime import datetime
 ```
@@ -141,6 +141,7 @@ How to set up a Python 3.10 environment for the Final Project (Windows, GitBash)
 		```
 		<source .venv/Scripts/activate>
 		```
+
 
 Creating a branch:
 Open a Git Bash terminal in the daily-grind-final-project directory
