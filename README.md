@@ -1,4 +1,4 @@
-# daily-grind-final-project
+# Daily-Grind-Final-Project
 
 
 Developer's: 
@@ -125,7 +125,7 @@ from app import *
 ```
 
 # Command line for instalations
-How to set up a Python 3.10 environment for the Final Project (Windows, GitBash):
+## How to set up a Python 3.10 environment for the Final Project (Windows, GitBash):
 
 1.) Download Python 3.10 latest version to your computer and install it.
 
@@ -134,41 +134,50 @@ How to set up a Python 3.10 environment for the Final Project (Windows, GitBash)
 - Open the daily-grind-final-project folder in VsCode
 		
 - Create a virtual environment: 
-```
+```ruby
 <py -3.10 -m venv .venv>
 ```
 - Activate it: 		
-```
+```ruby
 <source .venv/Scripts/activate>
 ```
 
 
-Creating a branch:
+## Creating a branch:
 Open a Git Bash terminal in the daily-grind-final-project directory
 
 To create a branch enter:
-```
+```ruby
 $ git branch and name the branch the Trello ticket number eg. $ git branch 8. Updating README file
 ```
 
-To move into the new branch enter:
-```
+To move into the new branch in your local repository enter:
+```ruby
 $ git checkout <name of branch> 
 ```
 
-Enter $ git push --set-upstream origin <name of branch> 
+To push the branch into the Git repository:
+```ruby
+$ git push --set-upstream origin <name of branch> 
+```
 
-Add, Commit and push the branch to the main repository. Check Github the branch is on the Git repository. 
+Add, Commit and Push the branch to the main repository. Check in Github if the branch is on the Git repository. 
 
-Pull Request: 
-When we have finished writing our code and want to merge it we will carry out a pull request and assign the scrum master to review the code. 
+## Pull Request: 
+When we have finished writing our code and want to merge it, we will carry out a pull request and assign the scrum master to review the code. 
 
 Merging:
-Once the scrum master and the team are happy with the code we will merge the code
-Enter $ git checkout main to return to the main branch 
-Enter $ git pull on your local repository
+Once the scrum master and the team are happy with the code we will merge the code with:
+```ruby
+$ git checkout main (to return to the main branch)
+```
+```ruby
+$ git pull (on your local repository)
+```
 
-Deleting a Branch: 
-The branch will be deleted once the ticket is complete 
-Enter  $ git - - delete <name of branch> 
+## Deleting a Branch: 
+The branch will be deleted once the ticket is complete with:
+```ruby
+$ git - - delete <name of branch> 
+```
 
