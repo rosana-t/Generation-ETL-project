@@ -76,21 +76,21 @@ from datetime import datetime
 ```
 
 For the connect_rs_database.py:
-```
+```ruby
 import json
 import boto3
 import psycopg2
 ```
 
 For the connection_database.py:
-```
+```ruby
 import psycopg2
 import os
 from dotenv import load_dotenv
 ```
 
 For the lambda_function_to_create_tables:
-```
+```ruby
 import json
 import boto3
 import psycopg2
@@ -98,7 +98,7 @@ from connection_database import set_up_rs_connection
 ```
 
 For the lambda_function.py:
-```
+```ruby
 import boto3
 import psycopg2
 import csv
@@ -108,7 +108,7 @@ from connect_rs_create_table import *
 ```
 
 For the six.py:
-```
+```ruby
 from __future__ import absolute_import
 import functools
 import itertools
@@ -118,7 +118,7 @@ import types
 ```
 
 For the test_unit.py:
-```
+```ruby
 from unittest.mock import Mock,patch
 import pytest
 from app import *
@@ -131,16 +131,16 @@ How to set up a Python 3.10 environment for the Final Project (Windows, GitBash)
 
 2.) Setup a new virtual environment in VsCode using GitBash:
 
-		- Open the daily-grind-final-project folder in VsCode
+- Open the daily-grind-final-project folder in VsCode
 		
-		- Create a virtual environment: 
-		```
-		<py -3.10 -m venv .venv>
-		```
-		- Activate it: 
-		```
-		<source .venv/Scripts/activate>
-		```
+- Create a virtual environment: 
+```
+<py -3.10 -m venv .venv>
+```
+- Activate it: 		
+```
+<source .venv/Scripts/activate>
+```
 
 
 Creating a branch:
