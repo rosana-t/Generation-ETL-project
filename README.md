@@ -76,41 +76,53 @@ from datetime import datetime
 ```
 
 For the connect_rs_database.py:
+```
 import json
 import boto3
 import psycopg2
+```
 
 For the connection_database.py:
+```
 import psycopg2
 import os
 from dotenv import load_dotenv
+```
 
 For the lambda_function_to_create_tables:
+```
 import json
 import boto3
 import psycopg2
 from connection_database import set_up_rs_connection
+```
 
 For the lambda_function.py:
+```
 import boto3
 import psycopg2
 import csv
 import json
 from app import *
 from connect_rs_create_table import *
+```
 
 For the six.py:
+```
 from __future__ import absolute_import
 import functools
 import itertools
 import operator
 import sys
 import types
+```
 
 For the test_unit.py:
+```
 from unittest.mock import Mock,patch
 import pytest
 from app import *
+```
 
 # Command line for instalations
 How to set up a Python 3.10 environment for the Final Project (Windows, GitBash):
@@ -118,15 +130,26 @@ How to set up a Python 3.10 environment for the Final Project (Windows, GitBash)
 1.) Download Python 3.10 latest version to your computer and install it.
 2.) Setup a new virtual environment in VsCode using GitBash:
 		- Open the daily-grind-final-project folder in VsCode
-		- Create a virtual environment: <py -3.10 -m venv .venv>
-		- Activate it: <source .venv/Scripts/activate>
+		- Create a virtual environment: 
+		```
+		<py -3.10 -m venv .venv>
+		```
+		- Activate it: 
+		```
+		<source .venv/Scripts/activate>
+		```
 
 Creating a branch:
 Open a Git Bash terminal in the daily-grind-final-project directory
 
-To create a branch enter $ git branch and name the branch the Trello ticket number eg. $ git branch 8. Updating README file
+To create a branch enter:
+```
+$ git branch and name the branch the Trello ticket number eg. $ git branch 8. Updating README file
+```
 
+```
 Enter  $ git checkout <name of branch> 
+```
 
 Enter $ git push --set-upstream origin <name of branch> 
 
