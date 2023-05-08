@@ -70,10 +70,10 @@ https://docs.google.com/document/d/19KHkB9tTL4QzMGErdRBYX49L5XkttYZl1tBRzudbow8/
 
 # Required libraries and modules
 For the app.py:
-'''
+```
 import csv
 from datetime import datetime
-'''
+```
 
 For the connect_rs_database.py:
 import json
