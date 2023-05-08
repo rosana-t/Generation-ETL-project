@@ -124,7 +124,10 @@ import pytest
 from app import *
 ```
 
-# Command line for instalations
+# Command line for installations on Windows
+
+-If you are on Mac you will need to use (python3) instead of (py).
+
 ## How to set up a Python 3.10 environment for the Final Project (Windows, GitBash):
 
 1.) Download Python 3.10 latest version to your computer and install it.
@@ -223,3 +226,13 @@ To run all the tests:
 py -m pytest -v
 ```
 
+## Grafana:
+To set up a container in docker compose:
+```ruby
+docker run -d -p 3000:3000 grafana/grafana
+```
+
+To pul Grafana Docker image:
+```ruby
+docker pull grafana/grafana
+```
