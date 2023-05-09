@@ -207,7 +207,7 @@ if __name__ =='__main__':
     print("Products table data ready")
    
 
-    # # #orders
+    # orders and transactions
     transformed_data = split_items_for_transactions(transactions)
     transformed_data_2 = strip_items_in_order(transformed_data)
     items_with_qty_per_transaction = item_quantity(transformed_data_2)
