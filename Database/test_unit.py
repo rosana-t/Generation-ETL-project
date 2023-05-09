@@ -165,14 +165,14 @@ def test_split_items_for_transaction():
 def test_item_quantity_one_qty_per_item_in_order():
 
     data = [
-        {'order': ["Regular Chai latte - 2.30"]},
-        {'order': ["Regular Filter coffee - 1.50"]}
+        {'orders': ["Regular Chai latte - 2.30"]},
+        {'orders': ["Regular Filter coffee - 1.50"]}
         ]
     
     
     expected = [
-        {'order': ['Regular Chai latte - 2.30, 1']}, 
-        {'order': ['Regular Filter coffee - 1.50, 1']}
+        {'orders': ["Regular Chai latte - 2.30, 1"]}, 
+        {'orders': ["Regular Filter coffee - 1.50, 1"]}
      ]
 
     
@@ -181,13 +181,13 @@ def test_item_quantity_one_qty_per_item_in_order():
 
 def test_item_quantity_2_qty_per_item_in_order():
     data = [
-        {'order': ["Regular Chai latte - 2.30", "Regular Chai latte - 2.30"]},
-        {'order': ["Regular Filter coffee - 1.50", "Regular Filter coffee - 1.50"]}
+        {'orders': ["Regular Chai latte - 2.30", "Regular Chai latte - 2.30"]},
+        {'orders': ["Regular Filter coffee - 1.50", "Regular Filter coffee - 1.50"]}
         ]
     
     expected = [
-        {'order': ["Regular Chai latte - 2.30, 2"]},
-        {'order': ["Regular Filter coffee - 1.50, 2"]}
+        {'orders': ["Regular Chai latte - 2.30, 2"]},
+        {'orders': ["Regular Filter coffee - 1.50, 2"]}
         ]
     
     result = item_quantity(data)
@@ -195,13 +195,13 @@ def test_item_quantity_2_qty_per_item_in_order():
 
 def test_product_dict_in_order_qty_1():
     data = [
-        {'order': ["Regular Chai latte - 2.30, 1", "Regular Speciality Tea - English breakfast - 1.30, 1"]},
-        {'order': ["Large Chai latte - 2.60, 1", "Regular Filter coffee - 1.50, 1"]}
+        {'orders': ["Regular Chai latte - 2.30, 1", "Regular Speciality Tea - English breakfast - 1.30, 1"]},
+        {'orders': ["Large Chai latte - 2.60, 1", "Regular Filter coffee - 1.50, 1"]}
             ]
     
     expected = [
-        {'order': [{'product_size': 'Regular', 'product_name': 'Chai latte', 'product_qty': 1, 'product_price': 2.3}, {'product_size': 'Regular', 'product_name': 'Speciality Tea English breakfast', 'product_qty': 1, 'product_price': 1.3}]},
-        {'order': [{'product_size': 'Large', 'product_name': 'Chai latte', 'product_qty': 1, 'product_price': 2.6}, {'product_size': 'Regular', 'product_name': 'Filter coffee', 'product_qty': 1, 'product_price': 1.5}]}
+        {'orders': [{'product_size': 'Regular', 'product_name': 'Chai latte', 'product_qty': 1, 'product_price': 2.3}, {'product_size': 'Regular', 'product_name': 'Speciality Tea English breakfast', 'product_qty': 1, 'product_price': 1.3}]},
+        {'orders': [{'product_size': 'Large', 'product_name': 'Chai latte', 'product_qty': 1, 'product_price': 2.6}, {'product_size': 'Regular', 'product_name': 'Filter coffee', 'product_qty': 1, 'product_price': 1.5}]}
         ]
     
     result = product_dict_in_order(data)
@@ -210,13 +210,13 @@ def test_product_dict_in_order_qty_1():
 
 def test_product_dict_in_order_qty_2():
     data = [
-        {'order': ["Regular Chai latte - 2.30, 2", "Regular Speciality Tea - English breakfast - 1.30, 1", ]},
-        {'order': ["Large Chai latte - 2.60, 1", "Regular Filter coffee - 1.50, 2"]}
+        {'orders': ["Regular Chai latte - 2.30, 2", "Regular Speciality Tea - English breakfast - 1.30, 1", ]},
+        {'orders': ["Large Chai latte - 2.60, 1", "Regular Filter coffee - 1.50, 2"]}
             ]
     
     expected = [
-        {'order': [{'product_size': 'Regular', 'product_name': 'Chai latte', 'product_qty': 2, 'product_price': 2.3}, {'product_size': 'Regular', 'product_name': 'Speciality Tea English breakfast', 'product_qty': 1, 'product_price': 1.3}]},
-        {'order': [{'product_size': 'Large', 'product_name': 'Chai latte', 'product_qty': 1, 'product_price': 2.6}, {'product_size': 'Regular', 'product_name': 'Filter coffee', 'product_qty': 2, 'product_price': 1.5}]}
+        {'orders': [{'product_size': 'Regular', 'product_name': 'Chai latte', 'product_qty': 2, 'product_price': 2.3}, {'product_size': 'Regular', 'product_name': 'Speciality Tea English breakfast', 'product_qty': 1, 'product_price': 1.3}]},
+        {'orders': [{'product_size': 'Large', 'product_name': 'Chai latte', 'product_qty': 1, 'product_price': 2.6}, {'product_size': 'Regular', 'product_name': 'Filter coffee', 'product_qty': 2, 'product_price': 1.5}]}
         ]
     
     result = product_dict_in_order(data)
