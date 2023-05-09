@@ -186,7 +186,7 @@ def print_unique_orders_list(unique_orders_list):
 
 #------------------------------------Main App ----------------------------------------------------------------------------------------------
 if __name__ =='__main__':
-    csv_file = 'csvfile_for_testing.csv'
+    csv_file = 'chesterfield.csv'
     raw_data = extract_data(csv_file)
 
     cleaned_data = clean_sensitive_data(raw_data)
@@ -194,34 +194,24 @@ if __name__ =='__main__':
     formatted_date = convert_all_dates(date_time_split_tranactions, ['date'])
     transactions = change_type_total_prize(formatted_date)
     print("\nTransformed Data ready to be converted in 3NF\n")
-    for i in transactions:
-        print(i)
 
     #branches
     list_of_branches = branch_location(transactions)
-    print("\nBranch table\n")
-    print(list_of_branches)
+    print("Branch table data ready")
+    
 
     #products
     product_list = split_products(transactions)
     unique_product = unique_products(product_list)
     list_of_unique_product_dicts = split_unique_products(unique_product)
-    print("\nProducts table\n")
-    for i in list_of_unique_product_dicts:
-        print(i)
+    print("Products table data ready")
 
-    # #orders
+    # # #orders
     transformed_data = split_items_for_transactions(transactions)
     transformed_data_2 = strip_items_in_order(transformed_data)
     items_with_qty_per_transaction = item_quantity(transformed_data_2)
     data_for_orders_table = product_dict_in_order(items_with_qty_per_transaction)
-    print("\nOrders table\n")
-    for i in data_for_orders_table:
-        print(i)
+    print("Orders table and Transaction table data ready\n")
 
-    #transactions
-    transaction_table_data = remove_orders_data(data_for_orders_table)
-    print("\nTransaction tables\n")
-    for i in transaction_table_data:
-        print(i)
-
+    print("\nAll data ready to load")
+  

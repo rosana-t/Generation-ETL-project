@@ -31,7 +31,8 @@ jobs:
 
       - name: Zip up Lambda code # in github "zip warning: name not matched: daily_grind.zip" I can not find the file anywhere
         run: |
-          zip -r Database daily_grind.zip .
+          cd Database
+          zip -r daily_grind.zip .
           pwd
       #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
       # - name: Configure AWS credentials from delon9 account
