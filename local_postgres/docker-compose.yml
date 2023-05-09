@@ -2,7 +2,7 @@ version: "3.8"
 services:
   db:
     image: postgres
-    container_name: postgres_container_group_project
+    container_name: postgres_container_group_project_dg
     restart: always
     environment:
       POSTGRES_USER: 'postgres'
@@ -17,7 +17,7 @@ services:
         target: /var/lib/mysql
   adminer:
     image: adminer
-    container_name: adminer_container_group_project_1
+    container_name: adminer_container_group_project_dg
     restart: always
     ports:
       - 8080:8080

@@ -149,3 +149,76 @@ def test_branch_location_UHP():
     missing_location_key = [{'date_time': '01-01-2020 09:01', 'order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'},{'date_time': '01-01-2020 09:01','order': 'Large Chai latte - 2.60, Regular Filter coffee - 1.50', 'total_price': 4.1, 'payment_method': 'CARD', 'card_number': '12345678'}]
     with pytest.raises(KeyError):
         branch_location(missing_location_key)
+
+#---------------------------------------Orders(table) functions-----------------------------------------------------------------------------------
+def test_split_items_for_transaction():
+    data = [{'orders': "Regular Chai latte - 2.30, Regular Iced Americano - 1.30"}, 
+        {'orders': "Large Chai latte - 2.60, Regular Filter coffee - 1.50"}]
+    
+    expected = [{'orders': ["Regular Chai latte - 2.30", " Regular Iced Americano - 1.30"]}, 
+    {'orders': ["Large Chai latte - 2.60", " Regular Filter coffee - 1.50"]}]
+
+    
+    result = split_items_for_transactions(data)
+    assert expected == result
+
+def test_item_quantity_one_qty_per_item_in_order():
+
+    data = [
+        {'order': ["Regular Chai latte - 2.30"]},
+        {'order': ["Regular Filter coffee - 1.50"]}
+        ]
+    
+    
+    expected = [
+        {'order': ['Regular Chai latte - 2.30, 1']}, 
+        {'order': ['Regular Filter coffee - 1.50, 1']}
+     ]
+
+    
+    result = item_quantity(data)
+    assert expected == result
+
+def test_item_quantity_2_qty_per_item_in_order():
+    data = [
+        {'order': ["Regular Chai latte - 2.30", "Regular Chai latte - 2.30"]},
+        {'order': ["Regular Filter coffee - 1.50", "Regular Filter coffee - 1.50"]}
+        ]
+    
+    expected = [
+        {'order': ["Regular Chai latte - 2.30, 2"]},
+        {'order': ["Regular Filter coffee - 1.50, 2"]}
+        ]
+    
+    result = item_quantity(data)
+    assert expected == result
+
+def test_product_dict_in_order_qty_1():
+    data = [
+        {'order': ["Regular Chai latte - 2.30, 1", "Regular Speciality Tea - English breakfast - 1.30, 1"]},
+        {'order': ["Large Chai latte - 2.60, 1", "Regular Filter coffee - 1.50, 1"]}
+            ]
+    
+    expected = [
+        {'order': [{'product_size': 'Regular', 'product_name': 'Chai latte', 'product_qty': 1, 'product_price': 2.3}, {'product_size': 'Regular', 'product_name': 'Speciality Tea English breakfast', 'product_qty': 1, 'product_price': 1.3}]},
+        {'order': [{'product_size': 'Large', 'product_name': 'Chai latte', 'product_qty': 1, 'product_price': 2.6}, {'product_size': 'Regular', 'product_name': 'Filter coffee', 'product_qty': 1, 'product_price': 1.5}]}
+        ]
+    
+    result = product_dict_in_order(data)
+    assert expected == result
+
+
+def test_product_dict_in_order_qty_2():
+    data = [
+        {'order': ["Regular Chai latte - 2.30, 2", "Regular Speciality Tea - English breakfast - 1.30, 1", ]},
+        {'order': ["Large Chai latte - 2.60, 1", "Regular Filter coffee - 1.50, 2"]}
+            ]
+    
+    expected = [
+        {'order': [{'product_size': 'Regular', 'product_name': 'Chai latte', 'product_qty': 2, 'product_price': 2.3}, {'product_size': 'Regular', 'product_name': 'Speciality Tea English breakfast', 'product_qty': 1, 'product_price': 1.3}]},
+        {'order': [{'product_size': 'Large', 'product_name': 'Chai latte', 'product_qty': 1, 'product_price': 2.6}, {'product_size': 'Regular', 'product_name': 'Filter coffee', 'product_qty': 2, 'product_price': 1.5}]}
+        ]
+    
+    result = product_dict_in_order(data)
+    assert expected == result
+
