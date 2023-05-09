@@ -188,7 +188,7 @@ def print_unique_orders_list(unique_orders_list):
 
 #------------------------------------Main App ----------------------------------------------------------------------------------------------
 if __name__ =='__main__':
-    csv_file = 'leeds.csv'
+    csv_file = 'chesterfield.csv'
     raw_data = extract_data(csv_file)
 
     cleaned_data = clean_sensitive_data(raw_data)
