@@ -232,7 +232,7 @@ To set up a container in docker compose:
 docker run -d -p 3000:3000 grafana/grafana
 ```
 
-To pul Grafana Docker image:
+To pull Grafana Docker image:
 ```ruby
 docker pull grafana/grafana
 ```
