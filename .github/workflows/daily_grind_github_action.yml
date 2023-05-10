@@ -1,11 +1,11 @@
 name: Github action for Final-Group((Daily-Grind)) Project 
 
-on: workflow_dispatch
-#   push:
-#     branches:
-#       - main
-#     paths:
-#       - Database/*
+# on: workflow_dispatch
+on: push:
+    branches:
+      - main
+    # paths:
+    #   - Database/*
 
 # on: pull_request:
 #     # Sequence of patterns matched against refs/heads
