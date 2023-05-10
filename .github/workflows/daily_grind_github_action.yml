@@ -45,6 +45,15 @@ jobs:
         #   zip -r daily_grind.zip .
         #   pwd
       #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
+      - name: Configure AWS credentials from delon9 account
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: eu-west-1
+      - name: Package CloudFormation template
+        run: aws cloudformation package --template-file template_daily_grind.yaml --s3-bucket delon9-daily-grind-lambda-zips --output-template-file stack-template-packaged.yml
+      - name: Deploy CloudFormation stack
+        run: aws cloudformation deploy --stack-name delon9-daily-grind-stack --template-file stack-template-packaged.yml --region eu-west-1 --capabilities CAPABILITY_IAM
       # - name: Configure AWS credentials from delon9 account
       #   uses: aws-actions/configure-aws-credentials@v2
       #   with:
