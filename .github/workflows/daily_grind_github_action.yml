@@ -2,8 +2,8 @@ name: Github action for Final-Group((Daily-Grind)) Project
 
 # on: workflow_dispatch
 on: push:
-    branches:
-      - main
+      branches:
+        - main
     # paths:
     #   - Database/*
 
