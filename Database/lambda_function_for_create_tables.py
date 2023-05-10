@@ -1,7 +1,7 @@
 import json
 import boto3
 import psycopg2
-from connection_database import set_up_rs_connection
+from connect_rs_database import set_up_rs_connection
     
     
 def create_branch_table(connection): 
@@ -11,10 +11,10 @@ def create_branch_table(connection):
             CREATE TABLE IF NOT EXISTS branch(
             branch_id int identity (1,1) PRIMARY KEY,
             branch_location VARCHAR (30) NOT NULL
-            );
+            )
             """
-        cursor.execute(postgres)
-        connection.commit()
+            cursor.execute(postgres)
+            connection.commit()
 
     except Exception as e:
         print(e)
@@ -28,7 +28,7 @@ def create_product_table(connection):
             product_name VARCHAR (30) NOT NULL,
             product_size VARCHAR (7) NOT NULL,
             product_price DECIMAl(10,2) NOT NULL,
-            );
+            )
             """
             cursor.execute(postgres)
             connection.commit()
@@ -48,7 +48,7 @@ def create_transaction_table(connection):
             branch_id INT,
             CONSTRAINT fk_branch_id FOREIGN KEY (branch_id)
                 REFERENCES branch (branch_id)
-            );
+            )
             """
             cursor.execute(postgres)
             connection.commit()
@@ -68,7 +68,7 @@ def create_order_table(connection):
                 REFERENCES transaction (transaction_id),
             CONSTRAINT fk_product_id FOREIGN KEY (product_id)
                 REFERENCES product (product_id)
-            );
+            )
             """ 
            cursor.execute(postgres)
            connection.commit()
