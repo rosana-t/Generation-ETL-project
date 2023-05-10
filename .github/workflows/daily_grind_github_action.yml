@@ -1,6 +1,6 @@
 name: Github action for Final-Group((Daily-Grind)) Project 
 
-# on: workflow_dispatch
+# on: workflow_dispatchf
 on: 
   push:
       branches:
