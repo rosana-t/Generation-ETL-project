@@ -229,15 +229,15 @@ py -m pytest -v
 
 ## Grafana:
 
-##For all the members in the team to be able to acces Grafana:
+### For all the members in the team to be able to acces Grafana:
 
 1.) One person in the team is going to create a new instance and a new secuirty group in AWS using AWS "Amazon Linux v2" machine image and they will end up with the SSH key.
 
-2.) Save the key which automatically generates into any directory.
+2.) Save the key into any directory.
 
 3.) Connect into the instance using SSH.
 
-4.)Run the following code:
+4.) Run the following code:
 
 ```ruby
 chmod 400 Daily-Grind-Key.pem
@@ -273,6 +273,6 @@ sudo docker run -d -p 80:3000 grafana/grafana
 
 5.) Then acsess Grafana using the Public IPv4 address on the Instance created before.
 
-- Replace (https to http://)
+- Replace (https to http://) on the web adress.
 
 - Log in with the user and password.
