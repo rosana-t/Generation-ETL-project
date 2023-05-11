@@ -3,7 +3,7 @@ def create_branch_table(connection):
         with connection.cursor() as cursor:
             postgres = """CREATE TABLE IF NOT EXISTS branch(
             branch_id int identity (1,1) PRIMARY KEY,
-            branch_location VARCHAR (30) NOT NULL)"""
+            branch_location VARCHAR (70) NOT NULL)"""
             
             cursor.execute(postgres)
             connection.commit()
@@ -17,7 +17,8 @@ def create_product_table(connection):
         with connection.cursor() as cursor:
             postgres = """CREATE TABLE IF NOT EXISTS product(
             product_id int identity (1,1) PRIMARY KEY,
-            product_name VARCHAR (50) NOT NULL,product_size VARCHAR (7) NOT NULL,
+            product_name VARCHAR (70) NOT NULL,
+            product_size VARCHAR (10) NOT NULL,
             product_price DECIMAl(10,2) NOT NULL)"""
             
             cursor.execute(postgres)
@@ -50,10 +51,10 @@ def create_transaction_table(connection):
 def create_order_table(connection):
     try:
         with connection.cursor() as cursor:
-           postgres = """CREATE TABLE IF NOT EXISTS basket(
+           postgres = """CREATE TABLE IF NOT EXISTS orders(
             transaction_id INT,
             product_id INT,
-            product_quanity INT,
+            product_qty INT,
             PRIMARY KEY (transaction_id, product_id),
             CONSTRAINT fk_transaction_id FOREIGN KEY (transaction_id)
                 REFERENCES transaction (transaction_id),

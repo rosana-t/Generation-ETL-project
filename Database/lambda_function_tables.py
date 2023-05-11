@@ -21,7 +21,7 @@ def lambda_handler(event, context):
                 rs_password= redshift_details["password"])
                 
         print(f"lambda_handler: connection created")
-                
+        
         create_branch_table(connection)
         print(f"lambda_handler: branch table created")
         
