@@ -1,6 +1,6 @@
 name: Github action for Final-Group((Daily-Grind)) Project 
 
-# on: workflow_dispatchff
+# on: workflow_dispatchfff
 on: 
   push:
       branches:
@@ -52,7 +52,7 @@ jobs:
           aws-region: eu-west-1
       - name: Package CloudFormation template
         run: aws cloudformation package --template-file Database/template_daily_grind.yml \ # this is a cloudformation package, it is provide the template file 
-            --s3-bucket delon9-daily-grind-lambda-zips \ # prvide and deployment bucket
+            --s3-bucket delon9-daily-grind-lambda-zips \ # prvide the deployment bucket
             --output-template-file stack-template-packaged.yml # and provide an output template file
             # it is takes the template, finds any references to local files and it will zip that up, 
             # put it into S3 deployment bucket, and then change the reference within the template file (regenerate it)
