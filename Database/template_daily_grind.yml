@@ -23,10 +23,10 @@ Resources:
     Properties:
       FunctionName: Daily-Grind-Extract-CSVtoRedshift #name of the lambda function
       Runtime: python3.10
-      Handler: lambda_function.lambda_handler #(e.g. app.main.lambda_handler)
+      Handler: lambda_function.lambda_handler #(e.g. app.main.lambda_handler)path in AWS maybe Database.lambda_function.lambda_handler
       Role: arn:aws:iam::015206308301:role/lambda-execution-role
       Timeout: 300
-      Code: ../Database #YOUR-SOURCE-CODE-FOLDER-PATH (relative to where this template is, e.g. ../src)
+      Code: Database #we are referencing to the source folder and stay in the template, or ./Database
       VpcConfig:
         SecurityGroupIds:
           - !Ref SecurityGroupId
@@ -44,10 +44,10 @@ Resources:
           - Event: s3:ObjectCreated:*
             Function: !GetAtt LambdaFunction.Arn
 
-  S3BucketPermission: #deploy a lambda
+  S3BucketPermission: #invoke a lambda,this is the same when we setup a trigger in AWS to deploy a lamda function
     Type: AWS::Lambda::Permission
     Properties: 
       Action: lambda:InvokeFunction
       FunctionName: !Ref LambdaFunction
       Principal: s3.amazonaws.com
-      SourceArn: !Sub "arn:aws:s3:::${BucketNameRawData}"
+      SourceArn: !Sub "arn:aws:s3:::${BucketNameRawData}" 

@@ -3,16 +3,40 @@ import psycopg2
 import csv
 import json
 from app import *
-from connect_rs_create_table import *
+from redshift_connection import setup_rs_connection
+from redshift_load_functions import *
 
-
+def get_bucket_and_key():
+    bucket = event['Records'][0]['s3']['bucket']['name']
+    file_key = event['Records'][0]['s3']['object']['key']
+    
+    print(f"lambda_handler loading bucket = {bucket}, file_key = {file_key}")
+    
+    return bucket, file_key
+    
+def extract_from_csv(bucket, file_key):
+    s3 = boto3.client('s3')
+    
+    csv_object = s3.get_object(Bucket=bucket, Key=file_key)  #get the csv_object
+    csv_file = csv_object['Body'].read().decode('utf-8').splitlines()  #get the csv_file (body of the object)
+    print(f"lambda_handler file loaded file_key = {file_key}")
+        
+    raw_sales_data = []
+    
+    source_file = csv.DictReader(csv_file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',')
+    
+    for row in source_file:
+        raw_sales_data.append(row)
+    
+    return raw_sales_data
+    
 
 def lambda_handler(event, context):
     print(f"lambda_handler called event ={event}")
     try:
         s3 = boto3.client('s3')
-        # bucket = 'delon9-daily-grind-raw-data'
-        # file_key = '2023/5/2/chesterfield_02-05-2023_09-00-00.csv' # for testing the extract
+        #bucket = 'delon9-daily-grind-raw-data'
+        #file_key = '2023/5/2/chesterfield_02-05-2023_09-00-00.csv' # for testing the extract
         
         bucket = event['Records'][0]['s3']['bucket']['name']
         file_key = event['Records'][0]['s3']['object']['key']
@@ -26,58 +50,76 @@ def lambda_handler(event, context):
         source_file = csv.DictReader(csv_file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',')
             # next(source_file) #ignore the header row
         for row in source_file:
-            if '' not in row.values():
                 raw_sales_data.append(row)
+
+# -----------------------------------Extract--------------------------------------------------------------------------------------------------
+                
+        get_bucket_and_key()
+        raw_sales_data = extract_from_csv()
     
         
 
- # ------------------------------------Main App ----------------------------------------------------------------------------------------------
-
-        cleaned_data = clean_sensitive_data(raw_sales_data)
+# ------------------------------------Transform ----------------------------------------------------------------------------------------------
+        #raw data 
+        cleaned_data = clean_sensitive_data(raw_data)
         date_time_split_tranactions = split_date_time(cleaned_data)
         formatted_date = convert_all_dates(date_time_split_tranactions, ['date'])
         transactions = change_type_total_prize(formatted_date)
-        print("\nTransformed Data ready to be converted in 3NF\n")
-        
+        print("\nTransformed data ready for tables, file_key = {file_key}")
         
         #branches
         list_of_branches = branch_location(transactions)
-        print("\nBranch table\n")
-        print(list_of_branches)
+        print(f"\nBranch table data ready, for file_key = {file_key}")
         
+    
         #products
         product_list = split_products(transactions)
         unique_product = unique_products(product_list)
         list_of_unique_product_dicts = split_unique_products(unique_product)
-        print(f"lambda_handler products table ready found {len(list_of_unique_product_dicts)} rows")
-        
-        
-        #orders
-        transformed_data = split_items_for_transactions(transactions)
-        items_with_qty_per_transaction = item_quantity(transformed_data)
-        data_for_orders_table = product_dict_in_order(items_with_qty_per_transaction)
-        print(f"lambda_handler orders table ready found {len(data_for_orders_table)} rows")
-        
-        
-        #transactions
-        transaction_table_data = remove_orders_data(data_for_orders_table)
-        print(f"lambda_handler transactions table ready found {len(transaction_table_data)} rows")
+        print(f"lambda_handler products table ready found {len(list_of_unique_product_dicts)} rows, for file_key = {file_key}")
+       
     
-        print(f"lambda_handler connecting to Redshift")
+        # orders and transactions
+        transformed_data = split_items_for_transactions(transactions)
+        transformed_data_2 = strip_items_in_order(transformed_data)
+        items_with_qty_per_transaction = item_quantity(transformed_data_2)
+        data_for_orders_and_transaction_table = product_dict_in_order(items_with_qty_per_transaction)
+        print(f"lambda_handler orders and transaction table ready found {len(data_for_orders_and_transaction_table)} rows, for file_key = {file_key}")
+    
+        print("\nAll data ready to load")
+
+#---------------------------------Load-------------------------------------------------------------------------------------------------------  
+    
+        print(f"lambda_handler connecting to Redshift; for file_key = {file_key}")
+        
         ssm_client = boto3.client('ssm')
         parameter_details = ssm_client.get_parameter(Name='daily-grind-redshift-settings')
         redshift_details = json.loads(parameter_details['Parameter']['Value'])
         
-        set_up_rs_connection(
+        connection = setup_rs_connection(
             rs_host= redshift_details["host"],
             rs_port= redshift_details["port"],
             rs_dbname= redshift_details["database-name"],
             rs_user= redshift_details["user"],
-            rs_password= redshift_details["password"]
-        )
+            rs_password= redshift_details["password"])
         
+        print(f"lambda_handler ready to load transformed data to Redshift; for file_key = {file_key}")
         
-        print("lambda_handler done")
+        load_into_branch_table(connection, list_of_branches)
+        print(f"lambda_handler: data loaded to the branch table, for file_key = {file_key}")
+        
+        load_into_product_table(connection, list_of_unique_product_dicts)
+        print(f"lambda_handler: data loaded to the product table, for file_key = {file_key}")
+        
+        load_into_transaction_table(connection, data_for_orders_and_transaction_table)
+        print(f"lambda_handler: data loaded to the transaction table, for file_key = {file_key}")
+        
+        load_into_orders_table(connection, data_for_orders_and_transaction_table)
+        print(f"lambda_handler: data loaded to the orders table, for file_key = {file_key}")
+        
+        print(f"all data loaded to Redshift, for file_key = {file_key}")
+        
+        print(f"lambda_handler done, file_key = {file_key}")
         
     except Exception as error:
-        print("lambda_handler error occurred: " + str(error))
+        print(f"lambda_handler error occurred: {error}, for file_key = {file_key}")
