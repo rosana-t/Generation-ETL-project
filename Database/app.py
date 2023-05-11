@@ -7,10 +7,9 @@ def extract_data(filename):
     raw_sales_data = []
     try:
         with open(filename, 'r') as file:
-            source_file = csv.DictReader(file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',', skipinitialspace=True)
-            # next(source_file) #ignore the header row
+            source_file = csv.DictReader(file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',')
             for row in source_file:
-                    raw_sales_data.append(row)
+                raw_sales_data.append(row)
     except Exception as error:
         print("An error occurred: " + str(error))
 
