@@ -1,7 +1,7 @@
-def load_into_branch_table(connection, location):
+def load_into_branch_table(connection, branch_info):
     try:
         with connection.cursor() as cursor:
-            for loc in location:
+            for loc in branch_info:
                 sql_insert_query = f"""INSERT INTO branch (branch_location) SELECT (%s) \
                                 WHERE NOT EXISTS (SELECT branch_location FROM branch WHERE branch_location= (%s))"""
                 data_values = [loc, loc]
