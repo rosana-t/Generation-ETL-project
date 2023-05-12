@@ -44,6 +44,9 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-west-1
+      - name: directory check
+        run: pwd 
+             ls -la
       - name: Package CloudFormation template
         run: aws cloudformation package --template-file Database/template_daily_grind.yml --s3-bucket delon9-daily-grind-lambda-zips --output-template-file stack-template-packaged.yml 
       - name: Deploy CloudFormation stack
