@@ -6,7 +6,7 @@ Parameters:
   BucketNameRawData:
     Type: String
     Description: Enter the name of S3 bucket you wish to create.
-    Default: delon9-daily-grind-raw-data
+    Default: delon9-daily-grind-raw-data2
   VpcSubnetId:
     Type: String
     Description: The Redshift private subnet id
@@ -21,12 +21,12 @@ Resources:
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: Daily-Grind-Extract-CSVtoRedshift #name of the lambda function
+      FunctionName: Daily-Grind-Extract-CSV2 #name of the lambda function
       Runtime: python3.10
       Handler: lambda_function.lambda_handler #(e.g. app.main.lambda_handler)path in AWS maybe Database.lambda_function.lambda_handler
       Role: arn:aws:iam::015206308301:role/lambda-execution-role
       Timeout: 300
-      Code: Database #we are referencing to the source folder and stay in the template, or ./Database
+      Code: ./ #we are referencing to the source folder and stay in the template, or ./Database
       VpcConfig:
         SecurityGroupIds:
           - !Ref SecurityGroupId

@@ -1,6 +1,5 @@
 # Daily-Grind-Final-Project
 
-
 Developer's: 
 [Rosana Thanarajan](https://github.com/rosana-t),
 [Sumaya Jama](https://github.com/sumayaja),
@@ -14,7 +13,7 @@ volumes of transaction data for Super Cafe. This pipeline will collect all the t
 in a single server. By being able to easily query the company's data as a whole, the client will drastically increase their ability to identify company-wide trends and insights.
 
 
-#Elevator Pitch
+# Elevator Pitch
 
 For Super Cafe:
 Who - want to target new and existing customers and also understand what products are selling well. They want to access data from different stores and use that data to identify trends within the sales.
@@ -26,6 +25,7 @@ Unlike - Mini project app where we had no trends or existing data.
 Our Product - Will allow client to view trends due to the ETL pipelines. 
 
 # Scope
+
 Time - Limited time to do the project as we only have 5/6 weeks, therefore focus on the key requirements. The availability of the team (1).
 Quality - Functional code with unit testing (2).
 Budget - Resources given by the instructors during the program (1).
@@ -69,6 +69,7 @@ Organise our team to work cohesively together and building upon our strengths an
 https://docs.google.com/document/d/19KHkB9tTL4QzMGErdRBYX49L5XkttYZl1tBRzudbow8/edit
 
 # Required libraries and modules
+
 For the app.py:
 ```ruby
 import csv
@@ -227,12 +228,51 @@ py -m pytest -v
 ```
 
 ## Grafana:
-To set up a container in docker compose:
+
+### For all the members in the team to be able to acces Grafana:
+
+1.) One person in the team is going to create a new instance and a new secuirty group in AWS using AWS "Amazon Linux v2" machine image and they will end up with the SSH key.
+
+2.) Save the key into any directory.
+
+3.) Connect into the instance using SSH.
+
+4.) Run the following code:
+
 ```ruby
-docker run -d -p 3000:3000 grafana/grafana
+chmod 400 Daily-Grind-Key.pem
 ```
 
-To pull Grafana Docker image:
 ```ruby
-docker pull grafana/grafana
+ssh -i "Daily-Grind-Key.pem" ec2-user@ec2-34-244-12-214.eu-west-1.compute.amazonaws.com
 ```
+
+```ruby
+sudo yum install -y amazon-linux-extras
+```
+
+```ruby
+sudo amazon-linux-extras install docker -y
+```
+
+```ruby
+sudo service docker start
+```
+
+```ruby
+sudo usermod -a -G docker ec2-user
+```
+
+```ruby
+sudo chkconfig docker on
+```
+
+```ruby
+sudo docker run -d -p 80:3000 grafana/grafana
+```
+
+5.) Then acsess Grafana using the Public IPv4 address on the Instance created before.
+
+- Replace (https to http://) on the web adress.
+
+- Log in with the user and password.

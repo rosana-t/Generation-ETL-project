@@ -1,6 +1,6 @@
 name: Github action for Final-Group((Daily-Grind)) Project 
 
-# on: workflow_dispatchfff
+# on: workflow_dispatchffffff
 on: 
   push:
       branches:
@@ -33,53 +33,24 @@ jobs:
       - name: Run Unit test
         run: python3 -m pytest -v
       #-----------for lambda (install dependecies and zip up the files)-------------------------------
-      - name: Install Lammbda dependecies # if I add just py it is working in vscode but in github saying "command not found" because github working under Linux so if we are tunning this code locally (use py),if we running on github (use python3)
+      - name: Install Lammbda dependecies
         run: |
           python3 -m pip install --platform manylinux2014_x86_64 \
           --target=Database --implementation cp --python-version 3.10 \
           --only-binary=:all: --upgrade -r requirements-lambda.txt
-
-      # gi- name: Zip up Lambda code # we can not see the zip file and the dependecies files locally, github running a virtual server,all the files are there and will be deleted at hte end of the query
-        # run: |
-        #   cd Database
-        #   zip -r daily_grind.zip .
-        #   pwd
       #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
       - name: Configure AWS credentials from delon9 account
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-west-1
+      - name: directory check
+        run: pwd
+      - name: Daily...folder check
+        run: ls -la
+      - name: Database check
+        run: ls -la Database
       - name: Package CloudFormation template
-        run: aws cloudformation package --template-file Database/template_daily_grind.yml \ # this is a cloudformation package, it is provide the template file 
-            --s3-bucket delon9-daily-grind-lambda-zips \ # prvide the deployment bucket
-            --output-template-file stack-template-packaged.yml # and provide an output template file
-            # it is takes the template, finds any references to local files and it will zip that up, 
-            # put it into S3 deployment bucket, and then change the reference within the template file (regenerate it)
-            # to the new S3 location, also part of it gives the zip file a random nameevery time
+        run: aws cloudformation package --template-file ./Database/template_daily_grind.yml --s3-bucket delon9-daily-grind-lambda-zips --output-template-file stack-template-packaged.yml 
       - name: Deploy CloudFormation stack
-        run: aws cloudformation deploy --stack-name delon9-daily-grind-stack \
-            --template-file stack-template-packaged.yml \ # referencing to the output template
-            --region eu-west-1 --capabilities CAPABILITY_IAM
-      # - name: Configure AWS credentials from delon9 account
-      #   uses: aws-actions/configure-aws-credentials@v2
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: eu-west-1
-
-      # - name: Copy Zip folder to S3 (deployment/zip)bucket
-      #   run: |
-      #     pwd
-      #     ls -la
-      #     aws s3 cp database/daily_grind.zip s3://delon9-daily-grind-lambda-zips
-          
-      # - name: Deploy Cloudformation stack
-      #   run: aws cloudformation deploy --stack-name delon9-daily-grind-lambda-zips-stack --template-file template_daily_grind.yaml
-
-      #         aws cloudformation deploy --stack-name delon9-daily-grind-stack \
-      #             --template-file template_daily_grind.yaml --region eu-west-1 \
-      #             --capabilities CAPABILITY_IAM --profile ${profile_name}
-
-
-
+        run: aws cloudformation deploy --stack-name delon9-daily-grind-stack --template-file stack-template-packaged.yml --region eu-west-1 --capabilities CAPABILITY_IAM

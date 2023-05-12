@@ -6,37 +6,37 @@ from app import *
 from redshift_connection import setup_rs_connection
 from redshift_load_functions import *
 
-def get_bucket_and_key():
-    bucket = event['Records'][0]['s3']['bucket']['name']
-    file_key = event['Records'][0]['s3']['object']['key']
+# def get_bucket_and_key():
+#     bucket = event['Records'][0]['s3']['bucket']['name']
+#     file_key = event['Records'][0]['s3']['object']['key']
     
-    print(f"lambda_handler loading bucket = {bucket}, file_key = {file_key}")
+#     print(f"lambda_handler loading bucket = {bucket}, file_key = {file_key}")
     
-    return bucket, file_key
+#     return bucket, file_key
     
-def extract_from_csv(bucket, file_key):
-    s3 = boto3.client('s3')
+# def extract_from_csv(bucket, file_key):
+#     s3 = boto3.client('s3')
     
-    csv_object = s3.get_object(Bucket=bucket, Key=file_key)  #get the csv_object
-    csv_file = csv_object['Body'].read().decode('utf-8').splitlines()  #get the csv_file (body of the object)
-    print(f"lambda_handler file loaded file_key = {file_key}")
+#     csv_object = s3.get_object(Bucket=bucket, Key=file_key)  #get the csv_object
+#     csv_file = csv_object['Body'].read().decode('utf-8').splitlines()  #get the csv_file (body of the object)
+#     print(f"lambda_handler file loaded file_key = {file_key}")
         
-    raw_sales_data = []
+#     raw_sales_data = []
     
-    source_file = csv.DictReader(csv_file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',')
+#     source_file = csv.DictReader(csv_file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',')
     
-    for row in source_file:
-        raw_sales_data.append(row)
+#     for row in source_file:
+#         raw_sales_data.append(row)
     
-    return raw_sales_data
+#     return raw_sales_data
     
-
+#Hello
 def lambda_handler(event, context):
     print(f"lambda_handler called event ={event}")
     try:
         s3 = boto3.client('s3')
         #bucket = 'delon9-daily-grind-raw-data'
-        #file_key = '2023/5/2/chesterfield_02-05-2023_09-00-00.csv' # for testing the extract
+        #file_key = '2023/5/3/birmingham_03-05-2023_09-00-00.csv' # for testing the extract
         
         bucket = event['Records'][0]['s3']['bucket']['name']
         file_key = event['Records'][0]['s3']['object']['key']
@@ -50,18 +50,18 @@ def lambda_handler(event, context):
         source_file = csv.DictReader(csv_file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',')
             # next(source_file) #ignore the header row
         for row in source_file:
-                raw_sales_data.append(row)
+            raw_sales_data.append(row)
 
 # -----------------------------------Extract--------------------------------------------------------------------------------------------------
                 
-        get_bucket_and_key()
-        raw_sales_data = extract_from_csv()
+        # get_bucket_and_key()
+        # raw_sales_data = extract_from_csv()
     
         
 
 # ------------------------------------Transform ----------------------------------------------------------------------------------------------
         #raw data 
-        cleaned_data = clean_sensitive_data(raw_data)
+        cleaned_data = clean_sensitive_data(raw_sales_data)
         date_time_split_tranactions = split_date_time(cleaned_data)
         formatted_date = convert_all_dates(date_time_split_tranactions, ['date'])
         transactions = change_type_total_prize(formatted_date)
@@ -119,7 +119,7 @@ def lambda_handler(event, context):
         
         print(f"all data loaded to Redshift, for file_key = {file_key}")
         
-        print(f"lambda_handler done, file_key = {file_key}")
+        print(f"lambda_handler done, for file_key = {file_key}")
         
     except Exception as error:
         print(f"lambda_handler error occurred: {error}, for file_key = {file_key}")
