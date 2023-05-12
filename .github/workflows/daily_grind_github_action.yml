@@ -49,6 +49,6 @@ jobs:
       - name: Database check
         run: ls -la Database
       - name: Package CloudFormation template
-        run: aws cloudformation package --template-file Database/Database/template_daily_grind.yml --s3-bucket delon9-daily-grind-lambda-zips --output-template-file stack-template-packaged.yml 
+        run: aws cloudformation package --template-file ./Database/template_daily_grind.yml --s3-bucket delon9-daily-grind-lambda-zips --output-template-file stack-template-packaged.yml 
       - name: Deploy CloudFormation stack
         run: aws cloudformation deploy --stack-name delon9-daily-grind-stack --template-file stack-template-packaged.yml --region eu-west-1 --capabilities CAPABILITY_IAM
