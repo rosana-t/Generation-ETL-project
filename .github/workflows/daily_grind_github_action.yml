@@ -45,15 +45,15 @@ jobs:
         #   zip -r daily_grind.zip .
         #   pwd
       #-----------for lambda (install dependecies, zip up the files, load the zip file to S3 (deployment/zip)bucket and )--------
-      - name: Configure AWS credentials from delon9 account
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          # aws-region: eu-west-1
-      - name: Package CloudFormation template
-        run: aws cloudformation package --template-file Database/template_daily_grind.yml \ # this is a cloudformation package, it is provide the template file 
-            --s3-bucket delon9-daily-grind-lambda-zips \ # prvide the deployment bucket
-            --output-template-file stack-template-packaged.yml # and provide an output template file
+      # - name: Configure AWS credentials from delon9 account
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      #     # aws-region: eu-west-1
+      # - name: Package CloudFormation template
+      #   run: aws cloudformation package --template-file Database/template_daily_grind.yml \ # this is a cloudformation package, it is provide the template file 
+      #       --s3-bucket delon9-daily-grind-lambda-zips \ # prvide the deployment bucket
+      #       --output-template-file stack-template-packaged.yml # and provide an output template file
             # it is takes the template, finds any references to local files and it will zip that up, 
             # put it into S3 deployment bucket, and then change the reference within the template file (regenerate it)
             # to the new S3 location, also part of it gives the zip file a random nameevery time
