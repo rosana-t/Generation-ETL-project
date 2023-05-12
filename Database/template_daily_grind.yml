@@ -6,7 +6,7 @@ Parameters:
   BucketNameRawData:
     Type: String
     Description: Enter the name of S3 bucket you wish to create.
-    Default: delon9-daily-grind-raw-data
+    Default: delon9-daily-grind-raw-data2
   VpcSubnetId:
     Type: String
     Description: The Redshift private subnet id
