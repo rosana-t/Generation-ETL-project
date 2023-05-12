@@ -1,6 +1,6 @@
 name: Github action for Final-Group((Daily-Grind)) Project 
 
-# on: workflow_dispatchfff
+# on: workflow_dispatchfffff
 on: 
   push:
       branches:
@@ -51,7 +51,8 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-west-1
       - name: Package CloudFormation template
-        run: aws cloudformation package --template-file Database/template_daily_grind.yml \ # this is a cloudformation package, it is provide the template file 
+        run: aws cloudformation package \
+            --template-file Database/template_daily_grind.yml \ # this is a cloudformation package, it is provide the template file 
             --s3-bucket delon9-daily-grind-lambda-zips \ # prvide the deployment bucket
             --output-template-file stack-template-packaged.yml # and provide an output template file
             # it is takes the template, finds any references to local files and it will zip that up, 
@@ -61,6 +62,7 @@ jobs:
         run: aws cloudformation deploy --stack-name delon9-daily-grind-stack \
             --template-file stack-template-packaged.yml \ # referencing to the output template
             --region eu-west-1 --capabilities CAPABILITY_IAM
+
       # - name: Configure AWS credentials from delon9 account
       #   uses: aws-actions/configure-aws-credentials@v2
       #   with:
