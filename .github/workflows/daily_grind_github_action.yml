@@ -45,7 +45,9 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: eu-west-1
       - name: directory check
-        run: pwd 
+        run: pwd
+      - name: Daily...folder check
+        run: ls -la
       - name: Database check
         run: ls -la Database
       - name: Package CloudFormation template
