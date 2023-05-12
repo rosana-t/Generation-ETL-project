@@ -26,7 +26,7 @@ Resources:
       Handler: lambda_function.lambda_handler #(e.g. app.main.lambda_handler)path in AWS maybe Database.lambda_function.lambda_handler
       Role: arn:aws:iam::015206308301:role/lambda-execution-role
       Timeout: 300
-      Code: Database #we are referencing to the source folder and stay in the template, or ./Database
+      Code: ./ #we are referencing to the source folder and stay in the template, or ./Database
       VpcConfig:
         SecurityGroupIds:
           - !Ref SecurityGroupId
