@@ -33,7 +33,7 @@ jobs:
       - name: Run Unit test
         run: python3 -m pytest -v
       #-----------for lambda (install dependecies and zip up the files)-------------------------------
-      - name: Install Lammbda dependecies # if I add just py it is working in vscode but in github saying "command not found" because github working under Linux so if we are tunning this code locally (use py),if we running on github (use python3)
+      - name: Install Lammbda dependecies
         run: |
           python3 -m pip install --platform manylinux2014_x86_64 \
           --target=Database --implementation cp --python-version 3.10 \
@@ -46,10 +46,10 @@ jobs:
           aws-region: eu-west-1
       - name: Package CloudFormation template
         run: aws cloudformation package \
-            --template-file Database/template_daily_grind.yml \ # this is a cloudformation package, it is provide the template file 
-            --s3-bucket delon9-daily-grind-lambda-zips \ # prvide the deployment bucket
-            --output-template-file stack-template-packaged.yml # and provide an output template file
+            --template-file Database/template_daily_grind.yml \ 
+            --s3-bucket delon9-daily-grind-lambda-zips \ 
+            --output-template-file stack-template-packaged.yml 
       - name: Deploy CloudFormation stack
         run: aws cloudformation deploy --stack-name delon9-daily-grind-stack \
-            --template-file stack-template-packaged.yml \ # referencing to the output template
+            --template-file stack-template-packaged.yml \
             --region eu-west-1 --capabilities CAPABILITY_IAM
