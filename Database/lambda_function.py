@@ -35,7 +35,7 @@ def lambda_handler(event, context):
     print(f"lambda_handler called event ={event}")
     try:
         s3 = boto3.client('s3')
-        bucket = 'delon9-daily-grind-raw-data'
+        bucket = 'delon9-daily-grind-raw-data2'
         file_key = '2023/5/3/birmingham_03-05-2023_09-00-00.csv' # for testing the extract
         
         # bucket = event['Records'][0]['s3']['bucket']['name']
