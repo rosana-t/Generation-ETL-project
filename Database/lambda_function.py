@@ -30,7 +30,7 @@ from redshift_load_functions import *
     
 #     return raw_sales_data
     
-#Hello my friend!
+#Hello my friend!f
 def lambda_handler(event, context):
     print(f"lambda_handler called event ={event}")
     try:
