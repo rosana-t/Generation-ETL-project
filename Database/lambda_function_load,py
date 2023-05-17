@@ -1,0 +1,2 @@
+def lambda_handler(event, context):
+    print(f"lambda_handler called event ={event}")
