@@ -18,7 +18,7 @@ Parameters:
 
 
 Resources:
-  LambdaFunction:
+  Extracttransformlambda:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: Daily-Grind-Extract-CSV2 #name of the lambda function
@@ -26,12 +26,47 @@ Resources:
       Handler: lambda_function.lambda_handler #(e.g. app.main.lambda_handler)path in AWS maybe Database.lambda_function.lambda_handler
       Role: arn:aws:iam::015206308301:role/lambda-execution-role
       Timeout: 300
+      ReservedConcurrentExecutions: 1
       Code: ./ #we are referencing to the source folder and stay in the template, or ./Database
       VpcConfig:
         SecurityGroupIds:
           - !Ref SecurityGroupId
         SubnetIds:
           - !Ref VpcSubnetId
+
+  Tablesschemalambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: Daily-Grind-Tablesschemalambda #name of the lambda function
+      Runtime: python3.10
+      Handler: lambda_function_tables.lambda_handler #(e.g. app.main.lambda_handler)path in AWS maybe Database.lambda_function.lambda_handler
+      Role: arn:aws:iam::015206308301:role/lambda-execution-role
+      Timeout: 300
+      ReservedConcurrentExecutions: 1
+      Code: ./ #we are referencing to the source folder and stay in the template, or ./Database
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref SecurityGroupId
+        SubnetIds:
+          - !Ref VpcSubnetId
+
+
+  Loadlambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: Daily-Grind-LoadtoRedshift #name of the lambda function
+      Runtime: python3.10
+      Handler: lambda_function_load.lambda_handler #(e.g. app.main.lambda_handler)path in AWS maybe Database.lambda_function.lambda_handler
+      Role: arn:aws:iam::015206308301:role/lambda-execution-role
+      Timeout: 900
+      ReservedConcurrentExecutions: 1
+      Code: ./ #we are referencing to the source folder and stay in the template, or ./Database
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref SecurityGroupId
+        SubnetIds:
+          - !Ref VpcSubnetId
+
 
   S3Bucket: #Create an S3 bucket for the raw data
     Type: 'AWS::S3::Bucket'
@@ -42,12 +77,12 @@ Resources:
       NotificationConfiguration:
         LambdaConfigurations:
           - Event: s3:ObjectCreated:*
-            Function: !GetAtt LambdaFunction.Arn
+            Function: !GetAtt Extracttransformlambda.Arn
 
   S3BucketPermission: #invoke a lambda,this is the same when we setup a trigger in AWS to deploy a lamda function
     Type: AWS::Lambda::Permission
     Properties: 
       Action: lambda:InvokeFunction
-      FunctionName: !Ref LambdaFunction
+      FunctionName: !Ref Extracttransformlambda
       Principal: s3.amazonaws.com
       SourceArn: !Sub "arn:aws:s3:::${BucketNameRawData}" 
