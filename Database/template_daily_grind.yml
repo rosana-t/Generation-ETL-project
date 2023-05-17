@@ -106,7 +106,7 @@ Resources:
   #         - Event: s3:ObjectCreated:*
   #           Function: !GetAtt Extracttransformlambda.Arn
 
-  ETLQueue: 
+  Queue: 
     Type: 'AWS::SQS::Queue'
     Properties:
       QueueName: !Ref ETLQueue
