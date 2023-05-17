@@ -45,7 +45,7 @@ def load_into_orders_table(connection, orders_info):
                 for item in order['orders']:
                     sql_insert_query = f"INSERT INTO orders (transaction_id, product_id, product_qty) VALUES ( \
                     (SELECT transaction_id FROM transaction WHERE transaction_date = (%s) and transaction_time = (%s) \
-                    and total_price = (%s) and payment_method = (%s) and branch_id = (SELECT branch_id FROM branch WHERE branch_location = %s)), \
+                    and total_price = (%s) and payment_method = (%s) and branch_id = (SELECT branch_id FROM branch WHERE branch_location = %s) ORDER BY transaction_id DESC LIMIT 1), \
                     (SELECT product_id FROM product WHERE product_size = (%s) and product_name = (%s) and product_price = (%s)), (%s))"""
                     data_values = [order['date'], order['time'], order['total_price'], order['payment_method'], order['location'],
                                    item['product_size'], item['product_name'], item['product_price'], item['product_qty']]

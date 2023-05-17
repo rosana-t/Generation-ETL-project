@@ -30,16 +30,16 @@ from redshift_load_functions import *
     
 #     return raw_sales_data
     
-#Hello my friend!
+#Hello my friend!f
 def lambda_handler(event, context):
     print(f"lambda_handler called event ={event}")
     try:
         s3 = boto3.client('s3')
-        bucket = 'delon9-daily-grind-raw-data2'
-        file_key = '2023/5/3/birmingham_03-05-2023_09-00-00.csv' # for testing the extract
+        #bucket = 'delon9-daily-grind-raw-data2'
+        #file_key = '2023/5/3/birmingham_03-05-2023_09-00-00.csv' # for testing the extract
         
-        # bucket = event['Records'][0]['s3']['bucket']['name']
-        # file_key = event['Records'][0]['s3']['object']['key']
+        bucket = event['Records'][0]['s3']['bucket']['name']
+        file_key = event['Records'][0]['s3']['object']['key']
         
         print(f"lambda_handler loading bucket = {bucket}, file_key = {file_key}")
         csv_object = s3.get_object(Bucket=bucket, Key=file_key)  #get the csv_object
@@ -48,7 +48,6 @@ def lambda_handler(event, context):
         raw_sales_data = []
     
         source_file = csv.DictReader(csv_file, fieldnames=['date_time', 'location', 'name', 'orders', 'total_price', 'payment_method', 'card_number'], delimiter=',')
-            # next(source_file) #ignore the header row
         for row in source_file:
             raw_sales_data.append(row)
 
