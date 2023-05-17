@@ -34,6 +34,23 @@ Resources:
         SubnetIds:
           - !Ref VpcSubnetId
 
+Tablesschemalambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: Daily-Grind-Tablesschemalambda #name of the lambda function
+      Runtime: python3.10
+      Handler: lambda_function_tables.lambda_handler #(e.g. app.main.lambda_handler)path in AWS maybe Database.lambda_function.lambda_handler
+      Role: arn:aws:iam::015206308301:role/lambda-execution-role
+      Timeout: 300
+      ReservedConcurrentExecutions: 1
+      Code: ./ #we are referencing to the source folder and stay in the template, or ./Database
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref SecurityGroupId
+        SubnetIds:
+          - !Ref VpcSubnetId
+
+
   Loadlambda:
     Type: AWS::Lambda::Function
     Properties:
