@@ -34,7 +34,7 @@ Resources:
         SubnetIds:
           - !Ref VpcSubnetId
 
-Tablesschemalambda:
+  Tablesschemalambda:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: Daily-Grind-Tablesschemalambda #name of the lambda function
