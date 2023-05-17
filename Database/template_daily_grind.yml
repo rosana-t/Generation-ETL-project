@@ -18,7 +18,7 @@ Parameters:
 
 
 Resources:
-  LambdaFunction:
+  Extract_transform_lambda:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: Daily-Grind-Extract-CSV2 #name of the lambda function
@@ -34,7 +34,7 @@ Resources:
         SubnetIds:
           - !Ref VpcSubnetId
 
-  LambdaFunction:
+  Load_lambda:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: Daily-Grind-Load #name of the lambda function
