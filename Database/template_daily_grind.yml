@@ -60,12 +60,12 @@ Resources:
       NotificationConfiguration:
         LambdaConfigurations:
           - Event: s3:ObjectCreated:*
-            Function: !GetAtt LambdaFunction.Arn
+            Function: !GetAtt Extracttransformlambda.Arn
 
   S3BucketPermission: #invoke a lambda,this is the same when we setup a trigger in AWS to deploy a lamda function
     Type: AWS::Lambda::Permission
     Properties: 
       Action: lambda:InvokeFunction
-      FunctionName: !Ref LambdaFunction
+      FunctionName: !Ref Extracttransformlambda
       Principal: s3.amazonaws.com
       SourceArn: !Sub "arn:aws:s3:::${BucketNameRawData}" 
