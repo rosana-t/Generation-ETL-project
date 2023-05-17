@@ -7,6 +7,22 @@ from redshift_tables_schema import create_branch_table, create_product_table, cr
 
 def lambda_handler(event, context):
     try:
+        
+        sqs_client = boto3.client('sqs')
+        response = sqs_client.receive_message(
+        QueueUrl="https://sqs.eu-west-1.amazonaws.com/015206308301/daily-grind-queue2",
+        MaxNumberOfMessages=1,
+        WaitTimeSeconds=10,
+    )
+
+        print(f"Number of messages received: {len(response.get('Messages', []))}")
+
+        for message in response.get("Messages", []):
+            message_body = message["Body"]
+        print(f"Message body: {json.loads(message_body)}")
+        print(f"Receipt Handle: {message['ReceiptHandle']}")
+        
+
         print(f"lambda_handler connecting to Redshift")
         
         ssm_client = boto3.client('ssm')
