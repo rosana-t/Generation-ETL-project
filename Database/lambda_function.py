@@ -35,8 +35,8 @@ def lambda_handler(event, context):
     print(f"lambda_handler called event ={event}")
     try:
         s3 = boto3.client('s3')
-        #bucket = 'delon9-daily-grind-raw-data2'
-        #file_key = '2023/5/3/birmingham_03-05-2023_09-00-00.csv' # for testing the extract
+        # bucket = 'delon9-daily-grind-raw-data2'
+        # file_key = '2023/5/3/york_03-05-2023_09-00-00.csv' # for testing the extract
         
         bucket = event['Records'][0]['s3']['bucket']['name']
         file_key = event['Records'][0]['s3']['object']['key']
@@ -64,7 +64,7 @@ def lambda_handler(event, context):
         date_time_split_tranactions = split_date_time(cleaned_data)
         formatted_date = convert_all_dates(date_time_split_tranactions, ['date'])
         transactions = change_type_total_prize(formatted_date)
-        print("\nTransformed data ready for tables, file_key = {file_key}")
+        print(f"\nTransformed data ready for tables, file_key = {file_key}")
         
         #branches
         list_of_branches = branch_location(transactions)
@@ -85,40 +85,33 @@ def lambda_handler(event, context):
         data_for_orders_and_transaction_table = product_dict_in_order(items_with_qty_per_transaction)
         print(f"lambda_handler orders and transaction table ready found {len(data_for_orders_and_transaction_table)} rows, for file_key = {file_key}")
     
-        print("\nAll data ready to load")
+        print(f"\nAll data ready to load, for file_key = {file_key}")
+        
+#----------------------------------------convert to dictionary--------------------------------------------------------------------------------------------------
 
-#---------------------------------Load-------------------------------------------------------------------------------------------------------  
-    
-        print(f"lambda_handler connecting to Redshift; for file_key = {file_key}")
+        transformed_dict = {"branch":list_of_branches, "product": list_of_unique_product_dicts, "orders_and_transaction": data_for_orders_and_transaction_table}
         
-        ssm_client = boto3.client('ssm')
-        parameter_details = ssm_client.get_parameter(Name='daily-grind-redshift-settings')
-        redshift_details = json.loads(parameter_details['Parameter']['Value'])
+        print(f"Transformed data converted to a dictionary for file_key = {file_key}")
         
-        connection = setup_rs_connection(
-            rs_host= redshift_details["host"],
-            rs_port= redshift_details["port"],
-            rs_dbname= redshift_details["database-name"],
-            rs_user= redshift_details["user"],
-            rs_password= redshift_details["password"])
         
-        print(f"lambda_handler ready to load transformed data to Redshift; for file_key = {file_key}")
+        # session = boto3.Session(profile_name)
+        # sqs_client = session.client('sqs')
         
-        load_into_branch_table(connection, list_of_branches)
-        print(f"lambda_handler: data loaded to the branch table, for file_key = {file_key}")
-        
-        load_into_product_table(connection, list_of_unique_product_dicts)
-        print(f"lambda_handler: data loaded to the product table, for file_key = {file_key}")
-        
-        load_into_transaction_table(connection, data_for_orders_and_transaction_table)
-        print(f"lambda_handler: data loaded to the transaction table, for file_key = {file_key}")
-        
-        load_into_orders_table(connection, data_for_orders_and_transaction_table)
-        print(f"lambda_handler: data loaded to the orders table, for file_key = {file_key}")
-        
-        print(f"all data loaded to Redshift, for file_key = {file_key}")
-        
-        print(f"lambda_handler done, for file_key = {file_key}")
+        sqs = boto3.client('sqs')
+  
+        message = transformed_dict
+        response = sqs.send_message(
+            QueueUrl="https://sqs.eu-west-1.amazonaws.com/015206308301/daily-grind-queue2",
+            MessageAttributes={
+                     'Author': {
+                     'StringValue': 'extract_csv',
+                     'DataType': 'String'
+                     }
+                },
+            MessageBody=json.dumps(message)
+                    )
+        print("Connected to message queue")
+        print(f"Message sent for file_key = {file_key}") 
         
     except Exception as error:
         print(f"lambda_handler error occurred: {error}, for file_key = {file_key}")

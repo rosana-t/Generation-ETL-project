@@ -7,6 +7,14 @@ Parameters:
     Type: String
     Description: Enter the name of S3 bucket you wish to create.
     Default: delon9-daily-grind-raw-data2
+  BucketTransformedData:
+    Type: String
+    Description: Enter the name of S3 bucket you wish to create.
+    Default: delon9-daily-grind-transformed-data
+  ETLQueue:
+    Type: String
+    Description: Enter the name of S3 bucket you wish to create.
+    Default: daily-grind-queue2
   VpcSubnetId:
     Type: String
     Description: The Redshift private subnet id
@@ -86,3 +94,21 @@ Resources:
       FunctionName: !Ref Extracttransformlambda
       Principal: s3.amazonaws.com
       SourceArn: !Sub "arn:aws:s3:::${BucketNameRawData}" 
+
+  # S3Bucketfortransformdata: 
+  #   Type: 'AWS::S3::Bucket'
+  #   DependsOn:
+  #     - S3BucketPermission
+  #   Properties:
+  #     BucketName: !Ref BucketTransformedData
+  #     NotificationConfiguration:
+  #       LambdaConfigurations:
+  #         - Event: s3:ObjectCreated:*
+  #           Function: !GetAtt Extracttransformlambda.Arn
+
+  Queue: 
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Ref ETLQueue
+      DelaySeconds: 0
+      VisibilityTimeout: 120
