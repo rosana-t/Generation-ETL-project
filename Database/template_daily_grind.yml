@@ -112,3 +112,11 @@ Resources:
       QueueName: !Ref ETLQueue
       DelaySeconds: 0
       VisibilityTimeout: 120
+
+  QueuePermission: #invoke a lambda,this is the same when we setup a trigger in AWS to deploy a lamda function
+    Type: AWS::Lambda::Permission
+    Properties: 
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref Loadlambda
+      Principal: sqs.amazonaws.com
+      SourceArn: !Sub "arn:aws:sqs:::${ETLQueue}" 
