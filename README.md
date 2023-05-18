@@ -180,9 +180,9 @@ git pull (on your local repository)
 ```
 
 ## Deleting a Branch: 
-The branch will be deleted once the ticket is complete with:
+The branch will be deleted once the ticket is complete if it has already been fully merged in its upstream branch:
 ```ruby
-git - - delete <name of branch> 
+git --delete <name of branch> 
 ```
 
 ## PostgreSQL and Docker compose:
