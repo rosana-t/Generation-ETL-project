@@ -89,7 +89,7 @@ def lambda_handler(event, context):
         
 #----------------------------------------convert to dictionary--------------------------------------------------------------------------------------------------
 
-        transformed_dict = {"branch":list_of_branches, "product": list_of_unique_product_dicts, "orders_and_transaction": data_for_orders_and_transaction_table}
+        transformed_dict = {"branch":list_of_branches, "product": list_of_unique_product_dicts, "orders_and_transaction": data_for_orders_and_transaction_table, "file_key": file_key}
         
         print(f"Transformed data converted to a dictionary for file_key = {file_key}")
         
