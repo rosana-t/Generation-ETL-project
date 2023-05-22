@@ -275,4 +275,4 @@ sudo docker run -d -p 80:3000 grafana/grafana
 
 - Replace (https to http://) on the web adress.
 
-- Log in with the user and password.
+- Log in with the user and password..
