@@ -168,10 +168,48 @@ def product_dict_in_order(sales_data: list[dict]):
 
 #---------------------------EXTRA functions --------------------------------------------------------------------------------------------------------
 
-# print whole list of dictionaries for testing fonction
-def print_orders_list(list_of_dic):
+def print_orders_listt(list_of_dic):
     for dic in list_of_dic:
-        print(f'{dic["date"]},{dic["time"]},{dic["location"]},{dic["orders"]},{dic["total_price"]},{dic["payment_method"]}')
+        print(f'{dic["date_time"]},{dic["location"]},{dic["name"]},{dic["orders"]},{dic["payment_method"]},{dic["orders"]}')
+# print raw list
+def print_orders_list(orders_l):
+    order_number = 0
+    for order in orders_l:
+        order_number +=1
+        print(f'{order_number}. {order["date_time"]}, {order["location"]}, {order["name"]}, {order["orders"]}, {order["total_price"]}, {order["payment_method"]}, {order["card_number"]}')
+
+# print removed sensitive data list
+def print_cleaned_list(orders_l):
+    order_number = 0
+    for order in orders_l:
+        order_number +=1
+        print(f'{order_number}. {order["date_time"]}, {order["location"]}, {order["orders"]}, {order["total_price"]}, {order["payment_method"]}')
+
+# print transformed data list
+def print_transformed_list(orders_l):
+    order_number = 0
+    for order in orders_l:
+        order_number +=1
+        print(f'{order_number}. {order["date"]}, {order["time"]}, {order["location"]}, {order["orders"]}, {order["total_price"]}, {order["payment_method"]}')
+
+# print unique_products_list
+def print_unique_products_list(orders_l):
+    order_number = 0
+    for order in orders_l:
+        order_number +=1
+        print(f'{order_number}. {order["name"]}, {order["size"]}, {order["price"]}')
+
+# print Orders table and Transaction table data list
+def print_transaction_list(orders_l):
+    order_number = 0
+    for order in orders_l:
+        order_number +=1
+        print(f'{order_number}. {order["location"]}, \n{order["orders"]},\n {order["payment_method"]}, {order["date"]}, {order["time"]}')
+
+# print whole list of dictionaries for testing fonction
+# def print_orders_list(list_of_dic):
+#     for dic in list_of_dic:
+#         print(f'{dic["date"]},{dic["time"]},{dic["location"]},{dic["orders"]},{dic["total_price"]},{dic["payment_method"]}')
 
 # print the first 3 dictionaries from the list
 def print_first3_dic(list_of_dic):
@@ -187,23 +225,33 @@ def print_unique_orders_list(unique_orders_list):
 if __name__ =='__main__':
     csv_file = 'csvfile_for_testing.csv'
     raw_data = extract_data(csv_file)
+    print("\n1.) Extracted raw data from .csv file:\n")
+    print_orders_list(raw_data)
 
     cleaned_data = clean_sensitive_data(raw_data)
+    print("\n\n2.) Removed sensitive data (name and card number):\n")
+    print_cleaned_list(cleaned_data)
+
     date_time_split_tranactions = split_date_time(cleaned_data)
     formatted_date = convert_all_dates(date_time_split_tranactions, ['date'])
     transactions = change_type_total_prize(formatted_date)
+    print("\n\n3.) Transformed data (split date/time, change type of total_price):\n")
+    print_transformed_list(transactions)
+
     print("\nTransformed Data ready to be converted in 3NF\n")
     
     #branches
     list_of_branches = branch_location(transactions)
-    print("Branch table data ready")
+    print("\n\nBranch table data ready (list of locations):\n")
+    print(list_of_branches)
     
 
     #products
     product_list = split_products(transactions)
     unique_product = unique_products(product_list)
     list_of_unique_product_dicts = split_unique_products(unique_product)
-    print("Products table data ready")
+    print("\n\nProducts table data ready (split products by name/size/price)(unique products list of dictionary):\n")
+    print_unique_products_list(list_of_unique_product_dicts)
    
 
     # orders and transactions
@@ -211,9 +259,10 @@ if __name__ =='__main__':
     transformed_data_2 = strip_items_in_order(transformed_data)
     items_with_qty_per_transaction = item_quantity(transformed_data_2)
     data_for_orders_table = product_dict_in_order(items_with_qty_per_transaction)
-    print("Orders table and Transaction table data ready\n")
+    print("\n\nOrders table and Transaction table data ready (count quantity of products)\n")
+    print_transaction_list(data_for_orders_table)
 
-    print("\nAll data ready to load")
+    print("\nAll data ready to load!")
   
    
 
