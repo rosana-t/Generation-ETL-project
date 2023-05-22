@@ -42,7 +42,7 @@ Docker Compose.
 Python Code.
 Agile.
 Git Hub.
-Visualise the data using graphs - Jupyter.
+Visualise the data using graphs - Grafana.
 
 Should Have - 
 Easy to read CLI for the user.
